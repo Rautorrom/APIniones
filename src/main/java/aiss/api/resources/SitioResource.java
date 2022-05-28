@@ -61,7 +61,7 @@ public class SitioResource {
 		Collection<Sitios> result = new ArrayList<>();
 		result = repository.getAllSitios();
 		
-		
+		//por hacer
 		return Response.ok(result).build();
 	}
 	
