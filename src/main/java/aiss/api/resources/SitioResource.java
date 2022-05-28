@@ -1,9 +1,10 @@
 package aiss.api.resources;
 
 import java.net.URI;
-
+import java.util.ArrayList;
 import java.util.Collection;
-
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -12,7 +13,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -27,6 +28,7 @@ import aiss.model.Sitios;
 import aiss.model.Valoraciones;
 import aiss.model.repository.MapSitiosRepository;
 import aiss.model.repository.SitiosRepository;
+
 
 
 
@@ -54,24 +56,23 @@ public class SitioResource {
 
 	@GET
 	@Produces("application/json")
-	public Collection<Sitios> getAll()
+	public Response getAll(@QueryParam("limit") String limit, @QueryParam("fields") String fields)
 	{
-		return repository.getAllSitios();
+		Collection<Sitios> result = new ArrayList<>();
+		result = repository.getAllSitios();
+		
+		
+		return Response.ok(result).build();
 	}
 	
 	
 	@GET
 	@Path("/{id}")
 	@Produces("application/json")
-	public Sitios get(@PathParam("id") String id)
+	public Response get(@PathParam("id") String id, @QueryParam("fields") String fields)
 	{
-		Sitios list = repository.getSitio(id);
-		
-		if (list == null) {
-			throw new NotFoundException("The playlist with id="+ id +" was not found");			
-		}
-		
-		return list;
+        Sitios sitio = repository.getSitio(id);
+        return Response.ok(sitio).build();
 	}
 	
 	@POST
@@ -79,14 +80,11 @@ public class SitioResource {
 	@Produces("application/json")
 	public Response addSitio(@Context UriInfo uriInfo, Sitios sitio) {
 		if (sitio.getName() == null || "".equals(sitio.getName()))
-			throw new BadRequestException("The name of the playlist must not be null");
-		// TODO Auto-generated method stub
-		if (sitio.getValoracion()!=null)
-			throw new BadRequestException("The songs property is not editable.");
+			throw new BadRequestException("The name of the place must not be null");
 
 		repository.addSitio(sitio);
 
-		// Builds the response. Returns the playlist the has just been added.
+		// Builds the response. Returns the place the has just been added.
 		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "get");
 		URI uri = ub.build(sitio.getId());
 		ResponseBuilder resp = Response.created(uri);
@@ -100,11 +98,11 @@ public class SitioResource {
 	public Response updateSitio(Sitios sitio) {
 		Sitios oldsitio = repository.getSitio(sitio.getId());
 		if (oldsitio == null) {
-			throw new NotFoundException("The playlist with id="+ sitio.getId() +" was not found");			
+			throw new NotFoundException("The place with id="+ sitio.getId() +" was not found");			
 		}
 		
 		if (sitio.getValoracion()!=null)
-			throw new BadRequestException("The songs property is not editable.");
+			throw new BadRequestException("The reviews property is not editable.");
 		
 		// Update name
 		if (sitio.getName()!=null)
@@ -123,7 +121,7 @@ public class SitioResource {
 	public Response removeSitio(@PathParam("id") String id) {
 		Sitios toberemoved=repository.getSitio(id);
 		if (toberemoved == null)
-			throw new NotFoundException("The playlist with id="+ id +" was not found");
+			throw new NotFoundException("The place with id="+ id +" was not found");
 		else
 			repository.deleteSitio(id);
 		
@@ -142,13 +140,13 @@ public class SitioResource {
 		Valoraciones val = repository.getValoracion(valId);
 		
 		if (sitio==null)
-			throw new NotFoundException("The playlist with id=" + sitioId + " was not found");
+			throw new NotFoundException("The place with id=" + sitioId + " was not found");
 		
 		if (val == null)
-			throw new NotFoundException("The song with id=" + valId + " was not found");
+			throw new NotFoundException("The review with id=" + valId + " was not found");
 		
 		if (sitio.getValoracion(valId)!=null)
-			throw new BadRequestException("The song is already included in the playlist.");
+			throw new BadRequestException("The review is already included for this place.");
 			
 		repository.addValoracion(sitioId, valId);		
 
@@ -168,10 +166,10 @@ public class SitioResource {
 		Valoraciones val = repository.getValoracion(valId);
 		
 		if (sitio==null)
-			throw new NotFoundException("The playlist with id=" + sitioId + " was not found");
+			throw new NotFoundException("The place with id=" + sitioId + " was not found");
 		
 		if (val == null)
-			throw new NotFoundException("The song with id=" + valId + " was not found");
+			throw new NotFoundException("The review with id=" + valId + " was not found");
 		
 		
 		repository.removeValoracion(sitioId, valId);		
