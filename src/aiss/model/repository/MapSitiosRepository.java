@@ -107,10 +107,10 @@ public class MapSitiosRepository implements SitiosRepository{
 	
 	// Playlist related operations
 	@Override
-	public void addSitio(Sitios p) {
-		String id = "p" + index++;	
-		p.setId(id);
-		sitioMap.put(id,p);
+	public void addSitio(Sitios s) {
+		String id = "s" + index++;	
+		s.setId(id);
+		sitioMap.put(id,s);
 	}
 	
 	@Override
@@ -151,13 +151,14 @@ public class MapSitiosRepository implements SitiosRepository{
 	}
 
 	
-	// Song related operations
+	// Valoraciones related operations
 	
 	@Override
-	public void addValoracion(Valoraciones s) {
-		String id = "s" + index++;
-		s.setId(id);
-		valMap.put(id, s);
+	public void addValoracion(Valoraciones v) {
+		String id = "v" + index++;
+		v.setId(id);
+		valMap.put(id, v);
+		addValoracion(v.getSitioId(), id);
 	}
 	
 	@Override

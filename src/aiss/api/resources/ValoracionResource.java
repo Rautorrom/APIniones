@@ -56,7 +56,8 @@ public class ValoracionResource {
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response addSong(@Context UriInfo uriInfo, Valoraciones song) {
+	public Response addSong(@Context UriInfo uriInfo, Valoraciones valoracion) {
+		
 		return null;
 	}
 	

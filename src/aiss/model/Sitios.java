@@ -19,6 +19,7 @@ public class Sitios {
 	
 	public Sitios(String name) {
 		this.name = name;
+		
 	}
 	
 	protected void setValoracion(List<Valoraciones> s) {
