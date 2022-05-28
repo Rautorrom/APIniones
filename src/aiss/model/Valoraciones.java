@@ -103,5 +103,4 @@ public class Valoraciones {
 	public void setSitioId(String sitioId) {
 		this.sitioId = sitioId;
 	}
-
 }
