@@ -50,7 +50,7 @@ public class SitioResource {
 				_instance=new SitioResource();
 		return _instance;
 	}
-	
+
 
 	@GET
 	@Produces("application/json")
