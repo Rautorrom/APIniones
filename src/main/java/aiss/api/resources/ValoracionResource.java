@@ -48,7 +48,7 @@ public class ValoracionResource {
 	@GET
 	@Path("/{id}")
 	@Produces("application/json")
-	public Valoraciones get(@PathParam("id") String songId)
+	public Valoraciones get(@PathParam("id") String valoracionId)
 	{
 		return null;
 	}
