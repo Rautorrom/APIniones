@@ -34,9 +34,9 @@ paths:
             enum:
               - autor
               - '-autor'
-              - date
+              - fecha
               - '-fecha'
-              - stars
+              - estrellas
               - '-estrellas'
         - name: q
           in: query
@@ -241,7 +241,7 @@ paths:
           description: Mala peticion
         '404':
           description: Valoracion no encontrada
-  '/val/{valId}':
+  '/val/{id}':
     delete:
       tags:
         - val
@@ -249,7 +249,7 @@ paths:
       description: Elimina una valoracion dada su id
       operationId: deleteValoracion
       parameters:
-        - name: valId
+        - name: id
           in: path
           description: Id of the review
           required: true
@@ -267,7 +267,7 @@ paths:
       description: Devuelve la valoracion cuya id coincida con la id de valoracion proporcionada
       operationId: getValoracion
       parameters:
-        - name: valId
+        - name: id
           in: path
           description: Id de la Valoracion
           required: true
@@ -332,15 +332,15 @@ paths:
           schema:
             type: string
             enum:
-              - name
-              - '-name'
+              - nombre
+              - '-nombre'
         - name: isEmpty
           in: query
           description: Filtra los sitios sin valoraciones
           required: false
           schema:
             type: boolean
-        - name: name
+        - name: nombre
           in: query
           description: Filtra sitios por nombre
           required: false
@@ -486,14 +486,6 @@ paths:
                  numero: 955772234
                  horario: "9:00-21:00"
                  val:
-                    valId: "v1"
-                    autor: "Antonio Pérez"
-                    titulo: "Lo disfruté"
-                    description: "Un gran sitio para ir con la familia"
-                    fecha: "01-01-2017"
-                    estrellas: 4
-                    likes: 50
-                    sitioId: "s3"
         description: Sitio para crear
         required: true
       responses:
@@ -649,7 +641,7 @@ paths:
           description: Bad request
         '404':
           description: Sitio no encontrado
-  '/sitio/{sitioId}':
+  '/sitio/{id}':
     get:
       tags:
         - sitio
@@ -657,7 +649,7 @@ paths:
       description: Devuelve un sitio cuya id coincida con la id proporcionada
       operationId: getSitio
       parameters:
-        - name: sitioId
+        - name: id
           in: path
           description: Id del sitio
           required: true
@@ -739,11 +731,11 @@ paths:
         - sitio
       summary: Elimina el sitio
       description: Elimina al sitio que coincida con la id dada
-      operationId: removeEquipo
+      operationId: deleteSitio
       parameters:
-        - name: sitioId
+        - name: id
           in: path
-          description: Id del equipo
+          description: Id del sitio
           required: true
           schema:
             type: string
@@ -752,7 +744,7 @@ paths:
           description: Equipo eliminado
         '404':
           description: Equipo no encontrado  
-  '/sitio/{sitioId}/{valId}':
+  '/sitio/{id}/{valId}':
     post:
       tags:
         - sitio
@@ -765,7 +757,7 @@ paths:
             schema:
               type: string
       parameters:
-        - name: sitioId
+        - name: id
           in: path
           description: Id del sitio
           required: true
@@ -849,7 +841,7 @@ paths:
       description: Elimina la cancion cuya id coincida con la id del sitio dado
       operationId: deleteValoracionfromSitio
       parameters:
-        - name: sitioId
+        - name: id
           in: path
           description: Id del sitio
           required: true
