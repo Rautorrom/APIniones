@@ -25,7 +25,6 @@ public class PokemonTest {
 		System.out.println("Pokemon name: " +  p1.getName());
 		System.out.println("Pokemon generation: " +  p1.getGeneration());
 		
-		
 	}
 
 }
