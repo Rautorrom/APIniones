@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import aiss.model.Sitio;
 import aiss.model.Valoracion;
+import aiss.model.pokemon.Pokemon;
 
 public interface SitiosRepository {
 	
@@ -24,6 +25,10 @@ public interface SitiosRepository {
 	public Collection<Valoracion> getAllValoraciones(String sitioId);
 	public void addValoracionASitio(String sitioId, String songId);
 	public void deleteValoracionfromSitio(String sitioId, String valId); 
+	
+	// Pokemon
+	public Pokemon[] getAllPokemon() ;
+	public Pokemon getPokemon(String pId);
 
 	
 	
