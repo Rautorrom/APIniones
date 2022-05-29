@@ -1,4 +1,4 @@
-package apiniones.api.resources;
+package aiss.api.resources;
 
 import java.net.URI;
 import java.util.Collection;
@@ -24,10 +24,10 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import org.jboss.resteasy.spi.BadRequestException;
 import org.jboss.resteasy.spi.NotFoundException;
 
-import apiniones.model.Sitio;
-import apiniones.model.Valoracion;
-import apiniones.model.repository.MapSitiosRepository;
-import apiniones.model.repository.SitiosRepository;
+import aiss.model.Sitio;
+import aiss.model.Valoracion;
+import aiss.model.repository.MapSitiosRepository;
+import aiss.model.repository.SitiosRepository;
 
 
 @Path("/sitios")

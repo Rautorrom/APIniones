@@ -1,4 +1,4 @@
-package apiniones.api.resources;
+package aiss.api.resources;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -15,13 +15,13 @@ import javax.ws.rs.core.UriInfo;
 import org.jboss.resteasy.spi.BadRequestException;
 import org.jboss.resteasy.spi.NotFoundException;
 
+import aiss.model.Valoracion;
+import aiss.model.repository.MapSitiosRepository;
+import aiss.model.repository.SitiosRepository;
+
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriBuilder;
-
-import apiniones.model.Valoracion;
-import apiniones.model.repository.MapSitiosRepository;
-import apiniones.model.repository.SitiosRepository;
 
 import java.net.URI;
 import java.time.LocalDate;

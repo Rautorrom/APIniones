@@ -1,4 +1,4 @@
-package apiniones.model.repository;
+package aiss.model.repository;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -6,8 +6,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import apiniones.model.Sitio;
-import apiniones.model.Valoracion;
+import aiss.model.Sitio;
+import aiss.model.Valoracion;
 
 
 public class MapSitiosRepository implements SitiosRepository{
@@ -95,7 +95,7 @@ public class MapSitiosRepository implements SitiosRepository{
 		discoteca.setHorario("00:00-7:00");
 		addSitio(discoteca);
 		
-		// Add songs to sitios
+		// Añade valoraciones a los sitios
 		addValoracion(playa.getId(), val1.getId());
 		addValoracion(playa.getId(), one.getId());
 		addValoracion(playa.getId(), val3.getId());
@@ -105,7 +105,7 @@ public class MapSitiosRepository implements SitiosRepository{
 		addValoracion(discoteca.getId(), gotye.getId());
 	}
 	
-	// Playlist related operations
+	// Operaciones relacionadas con los Sitios
 	@Override
 	public void addSitio(Sitio s) {
 		String id = "s" + index++;	

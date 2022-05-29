@@ -161,6 +161,13 @@
         <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</outputDirectory>
         <plugins>
 
+			<!-- Esto lo he añadido yo por el error al RunAs StartDevServer -->
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-war-plugin</artifactId>
+			    <version>3.3.1</version>
+			</plugin>
+
             <!-- Maven AppEngine plugin -->
             <!-- https://cloud.google.com/appengine/docs/standard/java/tools/migrate-maven -->
             <!-- https://github.com/GoogleCloudPlatform/app-maven-plugin/blob/master/USER_GUIDE.md#how-do-i-enable-hot-reload-of-my-application -->

@@ -1,4 +1,4 @@
-package apiniones.model;
+package aiss.model;
 
 import java.util.ArrayList;
 import java.util.List;

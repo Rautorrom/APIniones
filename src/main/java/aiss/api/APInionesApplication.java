@@ -1,12 +1,12 @@
-package apiniones.api;
+package aiss.api;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.ws.rs.core.Application;
 
-import apiniones.api.resources.SitioResource;
-import apiniones.api.resources.ValoracionResource;
+import aiss.api.resources.SitioResource;
+import aiss.api.resources.ValoracionResource;
 
 
 public class APInionesApplication extends Application {
