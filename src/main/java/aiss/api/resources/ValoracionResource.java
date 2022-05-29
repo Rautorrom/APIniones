@@ -11,16 +11,25 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
+
+import org.jboss.resteasy.spi.BadRequestException;
+import org.jboss.resteasy.spi.NotFoundException;
+
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.UriBuilder;
 
 import aiss.model.Valoracion;
 import aiss.model.repository.MapSitiosRepository;
 import aiss.model.repository.SitiosRepository;
 
+
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 
@@ -51,15 +60,15 @@ public class ValoracionResource {
 		Collection<Valoracion> allValoraciones = repository.getAllValoraciones();
 		
 		if (autor != null) {
-			allValoraciones = allValoraciones.stream().filter(val->val.getAutor()==autor).toList();
+			allValoraciones = allValoraciones.stream().filter(val->val.getAutor()==autor).collect(Collectors.toList());
 		}
 		
 		if (fecha != null  ) {
-			allValoraciones = allValoraciones.stream().filter(val->val.getFecha().compareTo(fecha)>0).toList();
+			allValoraciones = allValoraciones.stream().filter(val->val.getFecha().compareTo(fecha)>0).collect(Collectors.toList());
 		}
 		
 		if (rating != null) {
-			allValoraciones = allValoraciones.stream().filter(val->val.getEstrellas()==rating).toList();
+			allValoraciones = allValoraciones.stream().filter(val->val.getEstrellas()==rating).collect(Collectors.toList());
 		}
 		
 		if (order != null) {
@@ -86,25 +95,61 @@ public class ValoracionResource {
 	@GET
 	@Path("/{id}")
 	@Produces("application/json")
-	public Valoracion get(@PathParam("id") String valoracionId)
+	public Valoracion getValoracion(@PathParam("id") String valoracionId)
 	{
-		Valoracion val = repository.getValoracion(valoracionId);
-		return val;
+		Valoracion valoracion = repository.getValoracion(valoracionId);
+
+		if(valoracion==null){
+			throw new NotFoundException("La valoracion con id=" + valoracionId + " no se encuentra");			
+		}
+		
+		return valoracion;
 	}
 	
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response addSong(@Context UriInfo uriInfo, Valoracion valoracion) {
+	public Response addValoracion(@Context UriInfo uriInfo, Valoracion valoracion) {
 		
-		return null;
+		if (valoracion.getAutor() == null || "".equals(valoracion.getAutor()))
+			throw new BadRequestException("El autor no puede estar vacío");
+		
+		if (valoracion.getDescripcion() == null || "".equals(valoracion.getDescripcion()))
+			throw new BadRequestException("La valoración no puede estar vacía");
+
+		if (valoracion.getEstrellas() == null)
+			throw new BadRequestException("Una valoración no puede no tener estrellas");
+		
+		repository.addValoracion(valoracion);
+
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "get");
+		URI uri = ub.build(valoracion.getId());
+		ResponseBuilder resp = Response.created(uri);
+		resp.entity(valoracion);			
+		return resp.build();
 	}
 	
 	
 	@PUT
 	@Consumes("application/json")
-	public Response updateSong(Valoracion song) {
-		return null;
+	public Response updateSong(Valoracion valoracion) {
+		
+		Valoracion oldValoracion = repository.getValoracion(valoracion.getId());
+		
+		if (oldValoracion == null) {
+			throw new NotFoundException("La valoración con id="+ valoracion.getId() +" no se encuentra");
+		}
+
+		if (valoracion.getDescripcion()!=null)
+			oldValoracion.setDescripcion(valoracion.getDescripcion());
+
+		if (valoracion.getEstrellas()!=null)
+			oldValoracion.setEstrellas(valoracion.getEstrellas());
+
+		if (valoracion.getFecha()!=null)
+			oldValoracion.setFecha(valoracion.getFecha());
+
+		return Response.noContent().build();
 	}
 	
 	@DELETE

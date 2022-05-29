@@ -1,7 +1,6 @@
 package aiss.api.resources;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -65,7 +64,7 @@ public class SitioResource {
 		Collection<Sitio> allSitios = repository.getAllSitios();
 		
 		if (ciudad!=null) {
-			allSitios = allSitios.stream().filter(sitio -> sitio.getCiudad()==ciudad).toList();
+			allSitios = allSitios.stream().filter(sitio -> sitio.getCiudad()==ciudad).collect(Collectors.toList());
 		}
 		
 		//rating is formatted as 'int-int' for example 0-5, 1-3, 5-4.
@@ -74,7 +73,7 @@ public class SitioResource {
 			String[] ratingRange = rating.split("-");
 			Integer minRating = Math.min(Integer.valueOf(ratingRange[0]),Integer.valueOf(ratingRange[1]));
 			Integer maxRating = Math.max(Integer.valueOf(ratingRange[0]),Integer.valueOf(ratingRange[1]));
-			allSitios = allSitios.stream().filter(sitio -> sitio.getRating()>minRating && sitio.getRating()<maxRating).toList();
+			allSitios = allSitios.stream().filter(sitio -> sitio.getRating()>minRating && sitio.getRating()<maxRating).collect(Collectors.toList());
 		}
 		
 		if (order!=null) {
