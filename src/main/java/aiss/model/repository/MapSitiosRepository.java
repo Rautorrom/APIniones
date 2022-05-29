@@ -204,7 +204,6 @@ public class MapSitiosRepository implements SitiosRepository{
 	}
 	
 	public void addPokemonComoSitio(Pokemon p) {
-<<<<<<< HEAD
 		String id = "s" + indexSitio++;
 		Sitio s = new Sitio();
 		s.setName(p.getName());
@@ -214,15 +213,4 @@ public class MapSitiosRepository implements SitiosRepository{
 		sitioMap.put(id,s);
 	}
 
-	
-=======
-        String id = "s" + indexSitio++;
-        Sitio s = new Sitio();
-        s.setName(p.getName());
-        s.setDescription("Pokemon de la generación "+p.getGeneration()
-                + ", tipo principal "+p.getType1()+" y tipo secundario "+p.getType2()+".");
-        s.setId(id);
-        sitioMap.put(id,s);
-    }
->>>>>>> branch 'master' of https://github.com/Rautorrom/APIniones.git
 }
