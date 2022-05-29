@@ -189,21 +189,9 @@ public class MapSitiosRepository implements SitiosRepository{
 		valMap.remove(valId);
 	}
 	
-	//Pokemon related operations
-  
-    public Pokemon[] getAllPokemon() {
-        String uri = "https://pokemonapiaiss.lm.r.appspot.com/api/pokemon" ;
-        ClientResource cr = new ClientResource(uri);
-        return cr.get(Pokemon[].class);
-    }
-    
-	public Pokemon getPokemon(Integer pId) {
-		String uri = "https://pokemonapiaiss.lm.r.appspot.com/api/pokemon/p" + pId ;
-		ClientResource cr = new ClientResource(uri);
-		return cr.get(Pokemon.class);
-	}
-	public Pokemon getPokemonByName(String name) {
-		String uri = "https://pokemonapiaiss.lm.r.appspot.com/api/pokemon/p" + name ;
+	//Pokemon related operations    
+	public Pokemon getPokemon(String name) {
+		String uri = "https://pokemonapiaiss.lm.r.appspot.com/api/pokemon/" + name ;
 		ClientResource cr = new ClientResource(uri);
 		return cr.get(Pokemon.class);
 	}

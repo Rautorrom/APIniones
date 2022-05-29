@@ -53,16 +53,15 @@ public class PokemonResource {
         return instance;
     }
     
-    @Path("/{id}")
+    @Path("/{name}")
     @Produces("application/json")
-    public Pokemon getPokemon(@PathParam("id") String id)
+    public Pokemon getPokemon(@PathParam("name") String name)
     {
-        Integer pId = Integer.valueOf(id.replace("p", ""));
         try {
-            return repository.getPokemon(pId);
+            return repository.getPokemon(name);
         }
         catch(Exception e){
-            throw new NotFoundException("El pokemon con la id="+ id +" no tiene un sitio asociado");    
+            throw new NotFoundException("El pokemon con el nombre="+ name +" no ha sido encontrado");    
         }
     }
     

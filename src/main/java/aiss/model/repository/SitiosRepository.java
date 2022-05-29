@@ -27,8 +27,8 @@ public interface SitiosRepository {
 	public void deleteValoracionfromSitio(String sitioId, String valId); 
 	
 	// Pokemon
-	public Pokemon[] getAllPokemon() ;
-    public Pokemon getPokemon(Integer pId);
+    public Pokemon getPokemon(String name);
+    public void addPokemonComoSitio(Pokemon p);
 	
 
 }
