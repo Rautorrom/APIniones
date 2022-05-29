@@ -140,7 +140,7 @@ public class MapSitiosRepository implements SitiosRepository{
 	}
 
 	@Override
-	public Collection<Valoracion> getAll(String sitioId) {
+	public Collection<Valoracion> getAllValoraciones(String sitioId) {
 		return getSitio(sitioId).getValoracion();
 	}
 

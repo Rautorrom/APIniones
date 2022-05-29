@@ -21,7 +21,7 @@ public interface SitiosRepository {
 	public Sitio getSitio(String sitioId);
 	public void updateSitio(Sitio p);
 	public void deleteSitio(String sitioId);
-	public Collection<Valoracion> getAll(String sitioId);
+	public Collection<Valoracion> getAllValoraciones(String sitioId);
 	public void addValoracionASitio(String sitioId, String songId);
 	public void removeValoracion(String sitioId, String valId); 
 
