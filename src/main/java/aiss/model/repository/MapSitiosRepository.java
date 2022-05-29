@@ -15,7 +15,8 @@ public class MapSitiosRepository implements SitiosRepository{
 	Map<String, Sitio> sitioMap;
 	Map<String, Valoracion> valMap;
 	private static MapSitiosRepository instance=null;
-	private int index=0;			// Index to create playlists and songs' identifiers.
+	private int indexSitio=0;			// Indice para los identificadores de sitios
+	private int indexValoracion=0; 		// Indice para los identificadores de valoraciones
 	
 	
 	public static MapSitiosRepository getInstance() {
@@ -33,53 +34,12 @@ public class MapSitiosRepository implements SitiosRepository{
 		sitioMap = new HashMap<String,Sitio>();
 		valMap = new HashMap<String,Valoracion>();
 		
-		// Create valoracion
-		Valoracion val1=new Valoracion();
-		val1.setAutor("Raul");
-		val1.setDescripcion("Increible experiencia pero no repetir�a");
-		val1.setFecha(LocalDate.parse("03/06/2018",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-		val1.setEstrellas(5);
-		val1.setSitioId("p1");
-		addValoracion(val1);
-		
-		Valoracion one=new Valoracion();
-		one.setAutor("Santi");
-		one.setDescripcion("Pille el covid pero no veas como estaba la rubia con la que me lie");
-		one.setFecha(LocalDate.parse("02/05/2018",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-		one.setEstrellas(4);
-		one.setSitioId("p0");
-		addValoracion(one);
-		
-		Valoracion val2=new Valoracion();
-		val2.setAutor("Alvaro");
-		val2.setDescripcion("No aguanto mas este antro, el trato horrible");
-		val2.setFecha(LocalDate.parse("01/04/2018",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-		val2.setEstrellas(2);
-		val2.setSitioId("p0");
-		addValoracion(val2);
-		
-		Valoracion val3=new Valoracion();
-		val3.setAutor("Adrian");
-		val3.setDescripcion("Me encanta este sitio de mis favoritos");
-		val3.setFecha(LocalDate.parse("02/12/2015",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-		val3.setEstrellas(3);
-		val3.setSitioId("p1");
-		addValoracion(val3);
-		
-		Valoracion gotye=new Valoracion();
-		gotye.setAutor("Laura");
-		gotye.setDescripcion("Una experiencia insuperable");
-		gotye.setFecha(LocalDate.parse("23/02/2002",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-		gotye.setEstrellas(4);
-		gotye.setSitioId("p1");
-		addValoracion(gotye);
 		
 		// Create sitio
 		Sitio playa=new Sitio();
 		playa.setName("Playa de Mintonete");
 		playa.setDescription("Playa situada en mintonete");
 		playa.setCiudad("Mintonete");
-		playa.setRating();
 		playa.setPagina("https://playademintonete.es");
 		playa.setTlf(654321978);
 		playa.setHorario("8:00-21:00");
@@ -89,11 +49,51 @@ public class MapSitiosRepository implements SitiosRepository{
 		discoteca.setName("Occo");
 		discoteca.setDescription("Discoteca de Sevilla");
 		discoteca.setCiudad("Sevilla");
-		discoteca.setRating();
 		discoteca.setPagina("https://occo.es");
 		discoteca.setTlf(987654321);
 		discoteca.setHorario("00:00-7:00");
 		addSitio(discoteca);
+		
+		// Create valoracion
+		Valoracion val1=new Valoracion();
+		val1.setAutor("Raul");
+		val1.setDescripcion("Increible experiencia pero no repetir�a");
+		val1.setFecha(LocalDate.parse("03/06/2018",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+		val1.setEstrellas(5);
+		val1.setSitioId("s1");
+		addValoracion(val1);
+		
+		Valoracion one=new Valoracion();
+		one.setAutor("Santi");
+		one.setDescripcion("Pille el covid pero no veas como estaba la rubia con la que me lie");
+		one.setFecha(LocalDate.parse("02/05/2018",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+		one.setEstrellas(4);
+		one.setSitioId("s0");
+		addValoracion(one);
+		
+		Valoracion val2=new Valoracion();
+		val2.setAutor("Alvaro");
+		val2.setDescripcion("No aguanto mas este antro, el trato horrible");
+		val2.setFecha(LocalDate.parse("01/04/2018",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+		val2.setEstrellas(2);
+		val2.setSitioId("s0");
+		addValoracion(val2);
+		
+		Valoracion val3=new Valoracion();
+		val3.setAutor("Adrian");
+		val3.setDescripcion("Me encanta este sitio de mis favoritos");
+		val3.setFecha(LocalDate.parse("02/12/2015",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+		val3.setEstrellas(3);
+		val3.setSitioId("s1");
+		addValoracion(val3);
+		
+		Valoracion gotye=new Valoracion();
+		gotye.setAutor("Laura");
+		gotye.setDescripcion("Una experiencia insuperable");
+		gotye.setFecha(LocalDate.parse("23/02/2002",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+		gotye.setEstrellas(4);
+		gotye.setSitioId("s1");
+		addValoracion(gotye);
 		
 		// Añade valoraciones a los sitios
 		addValoracion(playa.getId(), val1.getId());
@@ -108,7 +108,7 @@ public class MapSitiosRepository implements SitiosRepository{
 	// Operaciones relacionadas con los Sitios
 	@Override
 	public void addSitio(Sitio s) {
-		String id = "s" + index++;	
+		String id = "s" + indexSitio++;	
 		s.setId(id);
 		sitioMap.put(id,s);
 	}
@@ -155,7 +155,7 @@ public class MapSitiosRepository implements SitiosRepository{
 	
 	@Override
 	public void addValoracion(Valoracion v) {
-		String id = "v" + index++;
+		String id = "v" + indexValoracion++;
 		v.setId(id);
 		valMap.put(id, v);
 		addValoracion(v.getSitioId(), id);

@@ -85,13 +85,17 @@ public class Sitio {
 	public Double getRating() {
 		return rating;
 	}
-
+	
 	public void setRating() {
 		Integer suma = 0;
-		for(Valoracion valor : val) {
-			suma += valor.getEstrellas();
+		if (val.isEmpty()) {
+			rating = 0.;
+		} else {
+			for(Valoracion valor : val) {
+				suma += valor.getEstrellas();
+			}
+			rating = (double)suma/val.size();
 		}
-		rating = (double)suma/val.size();
 	}
 
 	
