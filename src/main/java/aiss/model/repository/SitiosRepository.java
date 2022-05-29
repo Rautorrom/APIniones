@@ -28,7 +28,7 @@ public interface SitiosRepository {
 	
 	// Pokemon
 	public Pokemon[] getAllPokemon() ;
-	public Pokemon getPokemon(String pId);
+    public Pokemon getPokemon(Integer pId);
 	
 
 }
