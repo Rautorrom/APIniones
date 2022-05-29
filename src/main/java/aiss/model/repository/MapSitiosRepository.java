@@ -19,7 +19,7 @@ public class MapSitiosRepository implements SitiosRepository{
 	Map<String, Valoracion> valMap;
 	private static MapSitiosRepository instance=null;
 	private int indexSitio=0;			// Indice para los identificadores de sitios
-	private int indexValoracion=0; 		// Indice para los identificadores de valoraciones
+	private int indexValoracion=0; 		// Indice para los identificadores de valoraciones 
 	
 	
 	public static MapSitiosRepository getInstance() {
@@ -138,8 +138,8 @@ public class MapSitiosRepository implements SitiosRepository{
 	
 	@Override
 	public void addValoracionASitio(String sitioId, String valId) {
-		Sitio playlist = getSitio(sitioId);
-		playlist.addValoracion(valMap.get(valId));
+		Sitio sitio = getSitio(sitioId);
+		sitio.addValoracion(valMap.get(valId));
 	}
 
 	public Collection<Valoracion> getAllValoraciones(String sitioId) {
@@ -196,6 +196,7 @@ public class MapSitiosRepository implements SitiosRepository{
         ClientResource cr = new ClientResource(uri);
         return cr.get(Pokemon[].class);
     }
+    
 	public Pokemon getPokemon(Integer pId) {
 		String uri = "https://pokemonapiaiss.lm.r.appspot.com/api/pokemon/p" + pId ;
 		ClientResource cr = new ClientResource(uri);
@@ -208,12 +209,13 @@ public class MapSitiosRepository implements SitiosRepository{
 	}
 	
 	public void addPokemonComoSitio(Pokemon p) {
-        String id = "s" + indexSitio++;
-        Sitio s = new Sitio();
-        s.setName(p.getName());
-        s.setDescription("Pokemon de la generación "+p.getGeneration()
-                + ", tipo principal "+p.getType1()+" y tipo secundario "+p.getType2()+".");
-        s.setId(id);
-        sitioMap.put(id,s);
-    }
+		String id = "s" + indexSitio++;
+		Sitio s = new Sitio();
+		s.setName(p.getName());
+		s.setDescription("Pokemon de la generación "+p.getGeneration()
+				+ ", tipo principal "+p.getType1()+" y tipo secundario "+p.getType2()+".");
+		s.setId(id);
+		sitioMap.put(id,s);
+	}
+
 }

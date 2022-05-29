@@ -2,7 +2,11 @@ package aiss.model.pokemon;
 
 import com.fasterxml.jackson.annotation.*;
 
+import aiss.model.Valoracion;
+
 import javax.annotation.Generated;
+
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 

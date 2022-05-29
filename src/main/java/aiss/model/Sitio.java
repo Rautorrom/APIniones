@@ -107,15 +107,15 @@ public class Sitio {
 		if (val==null)
 			return null;
 		
-		Valoracion song =null;
+		Valoracion valoracion =null;
 		for(Valoracion s: val)
 			if (s.getId().equals(valId))
 			{
-				song=s;
+				valoracion=s;
 				break;
 			}
 		
-		return song;
+		return valoracion;
 	}
 	
 	public void addValoracion(Valoracion s) {

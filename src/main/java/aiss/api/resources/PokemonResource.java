@@ -2,6 +2,7 @@ package aiss.api.resources;
 
 import java.util.Arrays;
 
+
 import java.net.URI;
 import java.util.Collection;
 import java.util.Comparator;
@@ -26,6 +27,8 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.jboss.resteasy.spi.BadRequestException;
 import org.jboss.resteasy.spi.NotFoundException;
+import org.restlet.resource.ClientResource;
+import org.restlet.resource.ResourceException;
 
 import aiss.model.Sitio;
 import aiss.model.Valoracion;
@@ -33,8 +36,11 @@ import aiss.model.pokemon.Pokemon;
 import aiss.model.repository.MapSitiosRepository;
 import aiss.model.repository.SitiosRepository;
 
+@Path("/pokemons")
 public class PokemonResource {
-
+	
+	private String uri = "https://pokemonapiaiss.lm.r.appspot.com/api";
+	
     protected static PokemonResource instance = null; // La instancia inicialmente no existe, se crea al ejecutar .getInstance().
     final SitiosRepository repository;  // Para poder trabajar con los datos
 
@@ -47,13 +53,11 @@ public class PokemonResource {
         return instance;
     }
     
-    
-    @GET
-    @Path("/{id}/pokemons")
+    @Path("/{id}")
     @Produces("application/json")
     public Pokemon getPokemon(@PathParam("id") String id)
     {
-        Integer pId = Integer.valueOf(id.replace("s", ""));
+        Integer pId = Integer.valueOf(id.replace("p", ""));
         try {
             return repository.getPokemon(pId);
         }
@@ -62,8 +66,21 @@ public class PokemonResource {
         }
     }
     
-    
-    
+    @GET
+    public Collection<Pokemon> getAllPokemon() {
+    	ClientResource cr = null;
+		Pokemon [] pokemons = null;
+		try {
+			cr = new ClientResource(uri);
+			pokemons = cr.get(Pokemon[].class);
+			
+		} catch (ResourceException re) {
+			System.err.println("Error when retrieving all songs: " + cr.getResponse().getStatus());
+			throw re;
+		}
+		
+		return Arrays.asList(pokemons);
+	} 
     
     
 }
