@@ -163,7 +163,7 @@ public class SitioResource {
 		
 		return Response.noContent().build();
 	}
-	
+	 
 	@DELETE
 	@Path("/{id}")
 	public Response removeSitio(@PathParam("id") String id) {
