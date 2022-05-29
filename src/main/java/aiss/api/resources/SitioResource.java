@@ -131,17 +131,35 @@ public class SitioResource {
 			throw new NotFoundException("The place with id="+ sitio.getId() +" was not found");			
 		}
 		
+		if (sitio.getId()!=null)
+			throw new BadRequestException("The Id property is not editable.");
+		
 		if (sitio.getValoracion()!=null)
-			throw new BadRequestException("The reviews property is not editable.");
+			throw new BadRequestException("The Reviews property is not editable.");
 		
 		// Update name
 		if (sitio.getName()!=null)
 			oldSitio.setName(sitio.getName());
 		
-		// Update description
+		// Update ciudad
+		if (sitio.getCiudad()!=null)
+			oldSitio.setCiudad(sitio.getCiudad());
+		
+		// Update descripcion
 		if (sitio.getDescription()!=null)
 			oldSitio.setDescription(sitio.getDescription());
-		// TODO Auto-generated method stub
+		
+		// Update horario
+		if (sitio.getHorario()!=null)
+			oldSitio.setHorario(sitio.getHorario());
+		
+		// Update pagina
+		if (sitio.getPagina()!=null)
+			oldSitio.setPagina(sitio.getPagina());
+		
+		// Update telephone
+		if (sitio.getTlf()!=null)
+			oldSitio.setTlf(sitio.getTlf());
 		
 		return Response.noContent().build();
 	}
