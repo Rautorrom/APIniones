@@ -52,41 +52,49 @@ public class SitioResource {
 
 	@GET
 	@Produces("application/json")
-	public Collection<Sitio> getAll(@QueryParam("limit") String limit, 
+	public Collection<Sitio> getAll(@QueryParam("limit") String limitQueried, 
 									@QueryParam("ciudad") String ciudad, 
 									@QueryParam("rating") String rating,
 									@QueryParam("order") String order)
 	{
-		Collection<Sitio> allSitios = repository.getAllSitios();
+		List<Sitio> allSitios = repository.getAllSitios().stream().collect(Collectors.toList());
 		
 		if (ciudad!=null) {
-			allSitios = allSitios.stream().filter(sitio -> sitio.getCiudad()==ciudad).collect(Collectors.toList());
+			
+			allSitios = allSitios.stream().filter(sitio -> sitio.getCiudad().toLowerCase().compareTo(ciudad.toLowerCase())==0).collect(Collectors.toList());
 		}
 		
-		//rating is formatted as 'int-int' for example 0-5, 1-3, 5-4.
+		//rating is formatted as 'double-double' for example 0-5, 1.5-3, 5.6-4.2 .
 		//if rating!=null the result must be filtered such as the rating field number must be between those integers.
 		if (rating !=null) {
 			String[] ratingRange = rating.split("-");
-			Integer minRating = Math.min(Integer.valueOf(ratingRange[0]),Integer.valueOf(ratingRange[1]));
-			Integer maxRating = Math.max(Integer.valueOf(ratingRange[0]),Integer.valueOf(ratingRange[1]));
+			Double minRating = Math.min(Double.valueOf(ratingRange[0]),Double.valueOf(ratingRange[1]));
+			Double maxRating = Math.max(Double.valueOf(ratingRange[0]),Double.valueOf(ratingRange[1]));
 			allSitios = allSitios.stream().filter(sitio -> sitio.getRating()>minRating && sitio.getRating()<maxRating).collect(Collectors.toList());
 		}
 		
 		if (order!=null) {
-			List<Sitio> allSitiosList = (List<Sitio>) allSitios;
-			if (order=="name") {
-				allSitiosList.sort(Comparator.comparing(Sitio::getName));
+			
+			if (order.compareTo("name") == 0) {
+				allSitios.sort(Comparator.comparing(Sitio::getName));
 			}
-			if (order=="-name") {
-				allSitiosList.sort(Comparator.comparing(Sitio::getName).reversed());
+			if (order.compareTo("-name") == 0) {
+				allSitios.sort(Comparator.comparing(Sitio::getName).reversed());
 			}
-			if (order=="name") {
-				allSitiosList.sort(Comparator.comparing(Sitio::getRating));
+			if (order.compareTo("rating") == 0) {
+				allSitios.sort(Comparator.comparing(Sitio::getRating));
 			}
-			if (order=="name") {
-				allSitiosList.sort(Comparator.comparing(Sitio::getRating).reversed());
+			if (order.compareTo("-rating") == 0) {
+				allSitios.sort(Comparator.comparing(Sitio::getRating).reversed());
 			}
-			allSitios = allSitiosList;
+			
+		}
+		
+		
+		if (limitQueried!=null) {
+			Integer limit = Integer.valueOf(limitQueried);
+			limit = limit > allSitios.size() ? allSitios.size() : limit ;
+			allSitios = allSitios.subList(0, limit);
 		}
  		return allSitios;
 	}

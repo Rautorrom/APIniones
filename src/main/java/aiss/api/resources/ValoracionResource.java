@@ -15,6 +15,7 @@ import javax.ws.rs.core.UriInfo;
 import org.jboss.resteasy.spi.BadRequestException;
 import org.jboss.resteasy.spi.NotFoundException;
 
+import aiss.model.Sitio;
 import aiss.model.Valoracion;
 import aiss.model.repository.MapSitiosRepository;
 import aiss.model.repository.SitiosRepository;
@@ -25,14 +26,15 @@ import javax.ws.rs.core.UriBuilder;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 
-@Path("/valoracion")
-public class ValoracionResource {
+@Path("/valoraciones")
+public class ValoracionResource { 
 
 	public static ValoracionResource _instance=null;
 	SitiosRepository repository;
@@ -51,39 +53,46 @@ public class ValoracionResource {
 	@GET
 	@Produces("application/json")
 	public Collection<Valoracion> getAll(@QueryParam("autor") String autor,
-//			@QueryParam("fecha") LocalDate fecha,
-			@QueryParam("rating") Integer rating, @QueryParam("order") String order)
+										@QueryParam("fecha") String fechaQueried,
+										@QueryParam("rating") String rating, 
+										@QueryParam("order") String order)
 	{
 		
-		Collection<Valoracion> allValoraciones = repository.getAllValoraciones();
 		
+		
+		
+		List<Valoracion> allValoraciones = repository.getAllValoraciones().stream().collect(Collectors.toList());
+				
 		if (autor != null) {
-			allValoraciones = allValoraciones.stream().filter(val->val.getAutor()==autor).collect(Collectors.toList());
+			allValoraciones = allValoraciones.stream().filter(val->val.getAutor().toLowerCase().compareTo(autor.toLowerCase())==0).collect(Collectors.toList());
 		}
 		
-//		if (fecha != null  ) {
-//			allValoraciones = allValoraciones.stream().filter(val->val.getFecha().compareTo(fecha)>0).collect(Collectors.toList());
-//		}
-		
-		if (rating != null) {
-			allValoraciones = allValoraciones.stream().filter(val->val.getEstrellas()==rating).collect(Collectors.toList());
+		if (fechaQueried != null  ) {
+			LocalDate fecha = LocalDate.parse(fechaQueried, DateTimeFormatter.ofPattern("dd-MM-uuuu"));
+			allValoraciones = allValoraciones.stream().filter(val->val.getFecha().compareTo(fecha)>0).collect(Collectors.toList());
+		}
+		if (rating !=null) {
+			String[] ratingRange = rating.split("-");
+			Double minRating = Math.min(Double.valueOf(ratingRange[0]),Double.valueOf(ratingRange[1]));
+			Double maxRating = Math.max(Double.valueOf(ratingRange[0]),Double.valueOf(ratingRange[1]));
+			allValoraciones = allValoraciones.stream().filter(val -> val.getEstrellas()>minRating && val.getEstrellas()<maxRating).collect(Collectors.toList());
 		}
 		
 		if (order != null) {
-			List<Valoracion> allValoracionesList = ((List<Valoracion>) allValoraciones);
-			if (order=="fecha") {
-				allValoracionesList.sort(Comparator.comparing(Valoracion::getFecha));
+			
+			if (order.compareTo("fecha")==0) {
+				allValoraciones.sort(Comparator.comparing(Valoracion::getFecha));
 			}
-			if (order=="-fecha") {
-				 allValoracionesList.sort(Comparator.comparing(Valoracion::getFecha).reversed());
+			if (order.compareTo("-fecha")==0) {
+				 allValoraciones.sort(Comparator.comparing(Valoracion::getFecha).reversed());
 			}
-			if (order=="rating") {
-				allValoracionesList.sort(Comparator.comparing(Valoracion::getEstrellas));
+			if (order.compareTo("rating")==0) {
+				allValoraciones.sort(Comparator.comparing(Valoracion::getEstrellas));
 			}
-			if (order=="-rating") {
-				allValoracionesList.sort(Comparator.comparing(Valoracion::getEstrellas).reversed());
+			if (order.compareTo("-rating")==0) {
+				allValoraciones.sort(Comparator.comparing(Valoracion::getEstrellas).reversed());
 			}
-			allValoraciones = allValoracionesList;
+			
 			
 		}
 		return allValoraciones;
