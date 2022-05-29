@@ -29,6 +29,7 @@ import org.jboss.resteasy.spi.NotFoundException;
 
 import aiss.model.Sitio;
 import aiss.model.Valoracion;
+import aiss.model.pokemon.Pokemon;
 import aiss.model.repository.MapSitiosRepository;
 import aiss.model.repository.SitiosRepository;
 
@@ -48,18 +49,17 @@ public class PokemonResource {
     
     
     @GET
-    public Response getPokemon() {
-        List<Map<String, Object>> tasks;
+    @Path("/{id}/pokemons")
+    @Produces("application/json")
+    public Pokemon getPokemon(@PathParam("id") String id)
+    {
+        Integer pId = Integer.valueOf(id.replace("s", ""));
         try {
-            tasks = Arrays.asList(repository.getAllPokemon())
-            		.stream()
-            		.map(pokemon -> Parse.taskFromPokemon(pokemon, null, null, null).getFields(Task.ALL_ATTRIBUTES))
-            		.collect(Collectors.toList());
-        } catch (Exception e) {
-            return Message.send(Response.Status.NOT_FOUND, Pair.of("status: ", "404"),
-                    Pair.of("message: ", "The pokemon with the name was not found"));
+            return repository.getPokemon(pId);
         }
-        return Response.ok(tasks).build();
+        catch(Exception e){
+            throw new NotFoundException("El pokemon con la id="+ id +" no tiene un sitio asociado");    
+        }
     }
     
     
