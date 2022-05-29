@@ -22,7 +22,7 @@ public interface SitiosRepository {
 	public void updateSitio(Sitio p);
 	public void deleteSitio(String sitioId);
 	public Collection<Valoracion> getAll(String sitioId);
-	public void addValoracion(String sitioId, String songId);
+	public void addValoracionASitio(String sitioId, String songId);
 	public void removeValoracion(String sitioId, String valId); 
 
 	

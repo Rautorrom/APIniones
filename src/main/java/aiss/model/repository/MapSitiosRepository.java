@@ -55,14 +55,6 @@ public class MapSitiosRepository implements SitiosRepository{
 		addSitio(discoteca);
 		
 		// Create valoracion
-		Valoracion val1=new Valoracion();
-		val1.setAutor("Raul");
-		val1.setDescripcion("Increible experiencia pero no repetir�a");
-		val1.setFecha(LocalDate.parse("03/06/2018",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-		val1.setEstrellas(5);
-		val1.setSitioId("s1");
-		addValoracion(val1);
-		
 		Valoracion one=new Valoracion();
 		one.setAutor("Santi");
 		one.setDescripcion("Pille el covid pero no veas como estaba la rubia con la que me lie");
@@ -70,6 +62,14 @@ public class MapSitiosRepository implements SitiosRepository{
 		one.setEstrellas(4);
 		one.setSitioId("s0");
 		addValoracion(one);
+		
+		Valoracion val1=new Valoracion();
+		val1.setAutor("Raul");
+		val1.setDescripcion("Increible experiencia pero no repetiría");
+		val1.setFecha(LocalDate.parse("03/06/2018",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+		val1.setEstrellas(5);
+		val1.setSitioId("s1");
+		addValoracion(val1);
 		
 		Valoracion val2=new Valoracion();
 		val2.setAutor("Alvaro");
@@ -96,13 +96,13 @@ public class MapSitiosRepository implements SitiosRepository{
 		addValoracion(gotye);
 		
 		// Añade valoraciones a los sitios
-		addValoracion(playa.getId(), val1.getId());
-		addValoracion(playa.getId(), one.getId());
-		addValoracion(playa.getId(), val3.getId());
-		addValoracion(playa.getId(), val2.getId());
+		addValoracionASitio(playa.getId(), one.getId());
+		addValoracionASitio(playa.getId(), val1.getId());
+		addValoracionASitio(playa.getId(), val2.getId());
+		addValoracionASitio(playa.getId(), val3.getId());
 		
-		addValoracion(discoteca.getId(), val2.getId());
-		addValoracion(discoteca.getId(), gotye.getId());
+		addValoracionASitio(discoteca.getId(), val2.getId());
+		addValoracionASitio(discoteca.getId(), gotye.getId());
 	}
 	
 	// Operaciones relacionadas con los Sitios
@@ -133,11 +133,10 @@ public class MapSitiosRepository implements SitiosRepository{
 		sitioMap.remove(id);
 	}
 	
-
 	@Override
-	public void addValoracion(String playlistId, String songId) {
-		Sitio playlist = getSitio(playlistId);
-		playlist.addValoracion(valMap.get(songId));
+	public void addValoracionASitio(String sitioId, String valId) {
+		Sitio playlist = getSitio(sitioId);
+		playlist.addValoracion(valMap.get(valId));
 	}
 
 	@Override
@@ -158,7 +157,7 @@ public class MapSitiosRepository implements SitiosRepository{
 		String id = "v" + indexValoracion++;
 		v.setId(id);
 		valMap.put(id, v);
-		addValoracion(v.getSitioId(), id);
+		addValoracionASitio(v.getSitioId(), id);
 	}
 	
 	@Override

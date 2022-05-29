@@ -96,7 +96,7 @@ public class ValoracionResource {
 	@Produces("application/json")
 	public Valoracion getValoracion(@PathParam("id") String valoracionId)
 	{
-		Valoracion valoracion = repository.getValoracion(valoracionId);
+		Valoracion valoracion = repository.getValoracion("v"+valoracionId);
 
 		if(valoracion==null){
 			throw new NotFoundException("La valoracion con id=" + valoracionId + " no se encuentra");			
@@ -131,7 +131,7 @@ public class ValoracionResource {
 	
 	@PUT
 	@Consumes("application/json")
-	public Response updateSong(Valoracion valoracion) {
+	public Response updateValoracion(Valoracion valoracion) {
 		
 		Valoracion oldValoracion = repository.getValoracion(valoracion.getId());
 		
@@ -148,13 +148,15 @@ public class ValoracionResource {
 		if (valoracion.getFecha()!=null)
 			oldValoracion.setFecha(valoracion.getFecha());
 
+		
 		return Response.noContent().build();
 	}
 	
 	@DELETE
 	@Path("/{id}")
-	public Response removeSong(@PathParam("id") String songId) {
-		return null;
+	public Response removeValoracion(@PathParam("id") String valId) {
+		repository.deleteValoracion("v"+valId);
+		return Response.noContent().build();
 	}
 	
 }
