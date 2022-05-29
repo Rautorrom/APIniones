@@ -51,9 +51,10 @@ public class ValoracionResource {
 	@GET
 	@Produces("application/json")
 	public Collection<Valoracion> getAll(@QueryParam("autor") String autor,
-//			@QueryParam("fecha") LocalDate fecha,
+			@QueryParam("fecha") String fechaQueried,
 			@QueryParam("rating") Integer rating, @QueryParam("order") String order)
 	{
+		LocalDate fecha = LocalDate.parse(fechaQueried);
 		
 		Collection<Valoracion> allValoraciones = repository.getAllValoraciones();
 		
@@ -61,9 +62,9 @@ public class ValoracionResource {
 			allValoraciones = allValoraciones.stream().filter(val->val.getAutor()==autor).collect(Collectors.toList());
 		}
 		
-//		if (fecha != null  ) {
-//			allValoraciones = allValoraciones.stream().filter(val->val.getFecha().compareTo(fecha)>0).collect(Collectors.toList());
-//		}
+		if (fecha != null  ) {
+			allValoraciones = allValoraciones.stream().filter(val->val.getFecha().compareTo(fecha)>0).collect(Collectors.toList());
+		}
 		
 		if (rating != null) {
 			allValoraciones = allValoraciones.stream().filter(val->val.getEstrellas()==rating).collect(Collectors.toList());
