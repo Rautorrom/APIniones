@@ -19,10 +19,10 @@ tags:
   - name: sitio
     description: Sitios o cualquier concepto reseñable
 paths:
-  /val:
+  /valoraciones:
     get:
       tags:
-        - val
+        - valoraciones
       summary: Listar valoraciones
       description: Lista todas las valoraciones
       operationId: getAllValoraciones
@@ -106,7 +106,7 @@ paths:
           description: Mala peticion
     post:
       tags:
-        - val
+        - valoraciones
       summary: Crea una valoración
       description: Crea una valoracion dados sus datos
       operationId: addValoracion
@@ -194,7 +194,7 @@ paths:
           description: Mala peticion
     put:
       tags:
-        - val
+        - valoraciones
       summary: Actualiza una valoracion
       description: Actualiza una valoracion dados unos parametros
       operationId: updateValoracion
@@ -243,10 +243,10 @@ paths:
           description: Mala peticion
         '404':
           description: Valoracion no encontrada
-  '/val/{id}':
+  '/valoraciones/{id}':
     delete:
       tags:
-        - val
+        - valoraciones
       summary: Elimina un valoracion
       description: Elimina una valoracion dada su id
       operationId: deleteValoracion
@@ -264,7 +264,7 @@ paths:
           description: Valoracion no encontrada
     get:
       tags:
-       - val
+       - valoraciones
       summary: Devuelve una Valoracion
       description: Devuelve la valoracion cuya id coincida con la id de valoracion proporcionada
       operationId: getValoracion
