@@ -105,7 +105,7 @@ public class SitioResource {
 	@Produces("application/json")
 	public Sitio getSitio(@PathParam("id") String id)
 	{
-        Sitio sitio = repository.getSitio("s"+id);
+        Sitio sitio = repository.getSitio(id);
         return sitio;
 	}
 	

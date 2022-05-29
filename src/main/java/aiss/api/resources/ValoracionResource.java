@@ -110,7 +110,7 @@ public class ValoracionResource {
 	@Produces("application/json")
 	public Valoracion getValoracion(@PathParam("id") String valoracionId)
 	{
-		Valoracion valoracion = repository.getValoracion("v"+valoracionId);
+		Valoracion valoracion = repository.getValoracion(valoracionId);
 
 		if(valoracion==null){
 			throw new NotFoundException("La valoracion con id=" + valoracionId + " no se encuentra");			
@@ -169,7 +169,7 @@ public class ValoracionResource {
 	@DELETE
 	@Path("/{id}")
 	public Response deleteValoracion(@PathParam("id") String valId) {
-		repository.deleteValoracion("v"+valId);
+		repository.deleteValoracion(valId);
 		return Response.noContent().build();
 	}
 	
