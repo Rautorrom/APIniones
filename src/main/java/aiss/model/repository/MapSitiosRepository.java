@@ -189,5 +189,4 @@ public class MapSitiosRepository implements SitiosRepository{
 	//Pokemon related operations
 	
 	
-	
 }

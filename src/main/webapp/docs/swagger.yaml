@@ -1,7 +1,9 @@
 openapi: 3.0.0
 
 servers: 
-  - url: 'localhost:8089'
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/AlvaroHR12/APIniones/1.0.0
+  - url: 'http://localhost:8089/api'
 info:
   description: Una API para valoraciones de sitios
   version: 1.0.0
