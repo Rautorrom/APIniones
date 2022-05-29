@@ -201,4 +201,14 @@ public class MapSitiosRepository implements SitiosRepository{
 		ClientResource cr = new ClientResource(uri);
 		return cr.get(Pokemon.class);
 	}
+	
+	public void addPokemonComoSitio(Pokemon p) {
+        String id = "s" + indexSitio++;
+        Sitio s = new Sitio();
+        s.setName(p.getName());
+        s.setDescription("Pokemon de la generación "+p.getGeneration()
+                + ", tipo principal "+p.getType1()+" y tipo secundario "+p.getType2()+".");
+        s.setId(id);
+        sitioMap.put(id,s);
+    }
 }
