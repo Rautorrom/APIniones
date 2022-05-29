@@ -148,7 +148,6 @@ public class ValoracionResource {
 			oldValoracion.setFecha(valoracion.getFecha());
 
 		
-		
 		return Response.noContent().build();
 	}
 	

@@ -195,7 +195,7 @@ public class SitioResource {
 		if (sitio.getValoracion(valId)!=null)
 			throw new BadRequestException("La valoración ya está incluida en este sitio.");
 			
-		repository.addValoracion(sitioId, valId);		
+		repository.addValoracionASitio(val.getSitioId(), valId);		
 
 		// Builds the response
 		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "get");

@@ -96,13 +96,13 @@ public class MapSitiosRepository implements SitiosRepository{
 		addValoracion(gotye);
 		
 		// Añade valoraciones a los sitios
-		addValoracion(playa.getId(), one.getId());
-		addValoracion(playa.getId(), val1.getId());
-		addValoracion(playa.getId(), val2.getId());
-		addValoracion(playa.getId(), val3.getId());
+		addValoracionASitio(playa.getId(), one.getId());
+		addValoracionASitio(playa.getId(), val1.getId());
+		addValoracionASitio(playa.getId(), val2.getId());
+		addValoracionASitio(playa.getId(), val3.getId());
 		
-		addValoracion(discoteca.getId(), val2.getId());
-		addValoracion(discoteca.getId(), gotye.getId());
+		addValoracionASitio(discoteca.getId(), val2.getId());
+		addValoracionASitio(discoteca.getId(), gotye.getId());
 	}
 	
 	// Operaciones relacionadas con los Sitios
@@ -133,11 +133,10 @@ public class MapSitiosRepository implements SitiosRepository{
 		sitioMap.remove(id);
 	}
 	
-
 	@Override
-	public void addValoracion(String playlistId, String songId) {
-		Sitio playlist = getSitio(playlistId);
-		playlist.addValoracion(valMap.get(songId));
+	public void addValoracionASitio(String sitioId, String valId) {
+		Sitio playlist = getSitio(sitioId);
+		playlist.addValoracion(valMap.get(valId));
 	}
 
 	@Override
@@ -158,7 +157,7 @@ public class MapSitiosRepository implements SitiosRepository{
 		String id = "v" + indexValoracion++;
 		v.setId(id);
 		valMap.put(id, v);
-		addValoracion(v.getSitioId(), id);
+		addValoracionASitio(v.getSitioId(), id);
 	}
 	
 	@Override
