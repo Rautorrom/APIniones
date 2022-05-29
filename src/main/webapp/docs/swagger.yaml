@@ -319,10 +319,10 @@ paths:
         '400':
           description: Mala peticion
     
-  /sitio:
+  /sitios:
     get:
       tags:
-        - sitio
+        - sitios
       summary: Lista los sitios
       description: Lista todos los sitios
       operationId: getAllSitios
@@ -424,7 +424,7 @@ paths:
           description: Mala peticion
     post:
       tags:
-        - sitio
+        - sitios
       summary: Crea un sitio
       description: Crea un sitio nuevo
       operationId: addSitio
@@ -564,7 +564,7 @@ paths:
           description: Mala respuesta
     put:
       tags:
-        - sitio
+        - sitios
       summary: Actualiza un sitio
       description: Actualiza los datos de un sitio
       operationId: updateSitio
@@ -643,10 +643,10 @@ paths:
           description: Bad request
         '404':
           description: Sitio no encontrado
-  '/sitio/{id}':
+  '/sitios/{id}':
     get:
       tags:
-        - sitio
+        - sitios
       summary: Devuelve un sitio
       description: Devuelve un sitio cuya id coincida con la id proporcionada
       operationId: getSitio
@@ -730,7 +730,7 @@ paths:
           description: Sitio no encontrado
     delete:
       tags:
-        - sitio
+        - sitios
       summary: Elimina el sitio
       description: Elimina al sitio que coincida con la id dada
       operationId: deleteSitio
@@ -743,13 +743,13 @@ paths:
             type: string
       responses:
         '204':
-          description: Equipo eliminado
+          description: Sitio eliminado
         '404':
-          description: Equipo no encontrado  
-  '/sitio/{id}/{valId}':
+          description: Sitio no encontrado  
+  '/sitios/{id}/{valId}':
     post:
       tags:
-        - sitio
+        - sitios
       summary: Añadir valoracion a sitio
       description: Añade una nueva valoracion al sitio asigando por la id
       operationId: addValoracionASitio
@@ -823,22 +823,30 @@ paths:
                         sitioId:
                           type: string
                 example:
-                  id: p5
-                  name: Favourites
-                  description: My favourite songs
-                  songs:
-                    - id: s1
-                      title: Rolling in the Deep
-                      artist: Adele
-                      album: '21'
-                      year: '2011'
+                  sitioId: "s3"
+                  nombre: "Ferreterias manolo"
+                  description: "La ferreteria de manolo"
+                  ciudad: "Sevilla"
+                  rating: 4
+                  pagina: "https://ferreteriawebmanolo.es"
+                  numero: 955772234
+                  horario: "9:00-21:00"
+                  val:
+                    valId: "v1"
+                    autor: "Antonio Pérez"
+                    titulo: "Lo disfruté"
+                    description: "Un gran sitio para ir con la familia"
+                    fecha: "01-01-2017"
+                    estrellas: 4
+                    likes: 50
+                    sitioId: "s3"
         '400':
           description: Mala peticion
         '404':
           description: El sitio o la valoracion no existe
     delete:
       tags:
-        - sitio
+        - sitios
       summary: Elimina una valoracion del sitio
       description: Elimina la cancion cuya id coincida con la id del sitio dado
       operationId: deleteValoracionfromSitio
