@@ -6,8 +6,11 @@ import org.junit.Test;
 
 public class PokemonTest {
 
+	
+	
+	
 	@Test
-	public void test() {
+	public void testGetPokemonVal() {
 		fail("Not yet implemented");
 	}
 
