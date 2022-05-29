@@ -1,0 +1,868 @@
+openapi: 3.0.0
+
+servers: 
+  - url: 'localhost:8089'
+info:
+  description: Una API para valoraciones de sitios
+  version: 1.0.0
+  title: APIniones
+  contact:
+    email: alvhidrod@alum.us.es
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: val
+    description: Valoraciones que dan los usuarios
+  - name: sitio
+    description: Sitios o cualquier concepto reseñable
+paths:
+  /val:
+    get:
+      tags:
+        - val
+      summary: Listar valoraciones
+      description: Lista todas las valoraciones
+      operationId: getAllValoraciones
+      parameters:
+        - name: order
+          in: query
+          description: Ordena por autor, fecha y estrellas
+          required: false
+          schema:
+            type: string
+            enum:
+              - autor
+              - '-autor'
+              - date
+              - '-fecha'
+              - stars
+              - '-estrellas'
+        - name: q
+          in: query
+          description: Consulta para filtrar
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description:  Maximo numero de resultados
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+        - name: offset
+          in: query
+          description: Vista previa de los resultados
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+      responses:
+        '200':
+          description: Busca resultados segun un criterio
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - valId
+                  properties:
+                    valId:
+                      type: string
+                    autor:
+                      type: string
+                    titulo:
+                      type: string
+                    descripcion:
+                      type: string
+                    fecha:
+                      type: string
+                      description: Start date
+                      example: "01-01-2017"
+                      format: date
+                    estrellas:
+                      type: integer
+                    likes:
+                      type: integer
+                    sitioId:
+                      type: string
+                  example:
+                    id: "v1"
+                    autor: "Antonio Pérez"
+                    titulo: "Lo disfruté"
+                    descripcion: "Un gran sitio para ir con la familia"
+                    fecha: "01-01-2017"
+                    estrellas: 4
+                    likes: 50
+                    sitioId: "s3"
+        '400':
+          description: Mala peticion
+    post:
+      tags:
+        - val
+      summary: Crea una valoración
+      description: Crea una valoracion dados sus datos
+      operationId: addValoracion
+      requestBody:
+        content:
+          application/json:
+              schema:
+                type: object
+                items:
+                  type: object
+                  required:
+                    - valId
+                  properties:
+                    valId:
+                      type: string
+                    autor:
+                      type: string
+                    titulo:
+                      type: string
+                    descripcion:
+                      type: string
+                    fecha:
+                      type: string
+                      description: Start date
+                      example: "01-01-2017"
+                      format: date
+                    estrellas:
+                      type: integer
+                    likes:
+                      type: integer
+                    sitioId:
+                      type: string
+                  example:
+                    id: "v1"
+                    autor: "Antonio Pérez"
+                    titulo: "Lo disfruté"
+                    reseña: "Un gran sitio para ir con la familia"
+                    fecha: "01-01-2017"
+                    estrellas: 4
+                    likes: 50
+                    sitioId: "s3"
+        description: Valoracion a crear
+        required: true
+      responses:
+        '201':
+          description: Valoracion creada
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: object
+                  required:
+                    - valId
+                  properties:
+                    valId:
+                      type: string
+                    autor:
+                      type: string
+                    titulo:
+                      type: string
+                    descripcion:
+                      type: string
+                    fecha:
+                      type: string
+                      description: Start date
+                      example: "01-01-2017"
+                      format: date
+                    estrellas:
+                      type: integer
+                    likes:
+                      type: integer
+                    sitioId:
+                      type: string
+                  example:
+                    valId: "v1"
+                    autor: "Antonio Pérez"
+                    titulo: "Lo disfruté"
+                    reseña: "Un gran sitio para ir con la familia"
+                    fecha: "01-01-2017"
+                    estrellas: 4
+                    likes: 50
+                    sitioId: "s3"
+        '400':
+          description: Mala peticion
+    put:
+      tags:
+        - val
+      summary: Actualiza una valoracion
+      description: Actualiza una valoracion dados unos parametros
+      operationId: updateValoracion
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - valId
+              properties:
+                    valId:
+                      type: string
+                    autor:
+                      type: string
+                    titulo:
+                      type: string
+                    descripcion:
+                      type: string
+                    fecha:
+                      type: string
+                      description: Start date
+                      example: "01-01-2017"
+                      format: date
+                    estrellas:
+                      type: integer
+                    likes:
+                      type: integer
+                    sitioId:
+                      type: string
+              example:
+                valId: "v1"
+                autor: "Antonio Pérez"
+                titulo: "Lo disfruté"
+                descripcion: "Un gran sitio para ir con la familia"
+                fecha: "01-01-2017"
+                estrellas: 4
+                likes: 50
+                sitioId: "s3"
+        description: Valoracion a actualizar
+        required: true
+      responses:
+        '204':
+          description: Valoracion actualizada
+        '400':
+          description: Mala peticion
+        '404':
+          description: Valoracion no encontrada
+  '/val/{valId}':
+    delete:
+      tags:
+        - val
+      summary: Elimina un valoracion
+      description: Elimina una valoracion dada su id
+      operationId: deleteValoracion
+      parameters:
+        - name: valId
+          in: path
+          description: Id of the review
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Valoracion eliminada
+        '404':
+          description: Valoracion no encontrada
+    get:
+      tags:
+       - val
+      summary: Devuelve una Valoracion
+      description: Devuelve la valoracion cuya id coincida con la id de valoracion proporcionada
+      operationId: getValoracion
+      parameters:
+        - name: valId
+          in: path
+          description: Id de la Valoracion
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Valoracion encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - valId
+                  - autor
+                  - titulo
+                  - descripcion
+                properties:
+                    valId:
+                      type: string
+                    autor:
+                      type: string
+                    titulo:
+                      type: string
+                    descripcion:
+                      type: string
+                    fecha:
+                      type: string
+                      description: Start date
+                      example: "01-01-2017"
+                      format: date
+                    estrellas:
+                      type: integer
+                    likes:
+                      type: integer
+                    sitioId:
+                      type: string
+                example:
+                  valId: "v1"
+                  autor: "Antonio Pérez"
+                  titulo: "Lo disfruté"
+                  description: "Un gran sitio para ir con la familia"
+                  fecha: "01-01-2017"
+                  estrellas: 4
+                  likes: 50
+                  sitioId: "s3"
+        '400':
+          description: Mala peticion
+    
+  /sitio:
+    get:
+      tags:
+        - sitio
+      summary: Lista los sitios
+      description: Lista todos los sitios
+      operationId: getAllSitios
+      parameters:
+        - name: order
+          in: query
+          description: Ordena equipos por nombre
+          required: false
+          schema:
+            type: string
+            enum:
+              - name
+              - '-name'
+        - name: isEmpty
+          in: query
+          description: Filtra los sitios sin valoraciones
+          required: false
+          schema:
+            type: boolean
+        - name: name
+          in: query
+          description: Filtra sitios por nombre
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Busca los resultados que se adaptan al filtro dado
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - sitioId
+                  properties:
+                    sitioId:
+                      type: string
+                    nombre:
+                      type: string
+                    descripcion:
+                      type: string
+                    ciudad:
+                      type: string
+                    rating:
+                      type: integer
+                    pagina: 
+                      type: string
+                    numero:
+                      type: integer
+                    horario:
+                      type: string
+                    val:
+                      type: array
+                      items:
+                        type: object
+                        required:
+                          - valId
+                        properties:
+                          valId:
+                            type: string
+                          autor:
+                            type: string
+                          titulo:
+                            type: string
+                          descripcion:
+                             type: string
+                          fecha:
+                            type: string 
+                            description: Start date 
+                            example: "01-01-2017"
+                            format: date
+                          estrellas:
+                            type: integer
+                          likes:
+                            type: integer
+                          sitioId:
+                            type: string
+                  example:
+                    sitioId: "s3"
+                    nombre: "Ferreterias manolo"
+                    description: "La ferreteria de manolo"
+                    ciudad: "Sevilla"
+                    rating: 4
+                    pagina: "https://ferreteriawebmanolo.es"
+                    numero: 955772234
+                    horario: "9:00-21:00"
+                    val:
+                      valId: "v1"
+                      autor: "Antonio Pérez"
+                      titulo: "Lo disfruté"
+                      description: "Un gran sitio para ir con la familia"
+                      fecha: "01-01-2017"
+                      estrellas: 4
+                      likes: 50
+                      sitioId: "s3"
+        '400':
+          description: Mala peticion
+    post:
+      tags:
+        - sitio
+      summary: Crea un sitio
+      description: Crea un sitio nuevo
+      operationId: addSitio
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - sitioId
+              properties:
+                sitioId:
+                  type: string
+                nombre:
+                  type: string
+                descripcion:
+                  type: string
+                ciudad:
+                  type: string
+                rating:
+                  type: integer
+                pagina: 
+                  type: string
+                numero:
+                  type: integer
+                horario:
+                  type: string
+                val:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - valId
+                    properties:
+                      valId:
+                        type: string
+                      autor:
+                        type: string
+                      titulo:
+                        type: string
+                      descripcion:
+                        type: string
+                      fecha:
+                        type: string 
+                        description: Start date 
+                        example: "01-01-2017"
+                        format: date
+                      estrellas:
+                         type: integer
+                      likes:
+                        type: integer
+                      sitioId:
+                        type: string
+              example:
+                 sitioId: "s3"
+                 nombre: "Ferreterias manolo"
+                 description: "La ferreteria de manolo"
+                 ciudad: "Sevilla"
+                 rating: 4
+                 pagina: "https://ferreteriawebmanolo.es"
+                 numero: 955772234
+                 horario: "9:00-21:00"
+                 val:
+                    valId: "v1"
+                    autor: "Antonio Pérez"
+                    titulo: "Lo disfruté"
+                    description: "Un gran sitio para ir con la familia"
+                    fecha: "01-01-2017"
+                    estrellas: 4
+                    likes: 50
+                    sitioId: "s3"
+        description: Sitio para crear
+        required: true
+      responses:
+        '201':
+          description: Equipo creado
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - sitioId
+                properties:
+                  sitioId:
+                    type: string
+                  nombre:
+                    type: string
+                  descripcion:
+                    type: string
+                  ciudad:
+                    type: string
+                  rating:
+                    type: integer
+                  pagina: 
+                    type: string
+                  numero:
+                   type: integer
+                  horario:
+                     type: string
+                  val:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                       - valId
+                      properties:
+                        valId:
+                          type: string
+                        autor:
+                          type: string
+                        titulo:
+                          type: string
+                        descripcion:
+                          type: string
+                        fecha:
+                          type: string 
+                          description: Start date 
+                          example: "01-01-2017"
+                          format: date
+                        estrellas:
+                          type: integer
+                        likes:
+                          type: integer
+                        sitioId:
+                          type: string
+                example:
+                  sitioId: "s3"
+                  nombre: "Ferreterias manolo"
+                  description: "La ferreteria de manolo"
+                  ciudad: "Sevilla"
+                  rating: 4
+                  pagina: "https://ferreteriawebmanolo.es"
+                  numero: 955772234
+                  horario: "9:00-21:00"
+                  val:
+                    valId: "v1"
+                    autor: "Antonio Pérez"
+                    titulo: "Lo disfruté"
+                    description: "Un gran sitio para ir con la familia"
+                    fecha: "01-01-2017"
+                    estrellas: 4
+                    likes: 50
+                    sitioId: "s3"
+        '400':
+          description: Mala respuesta
+    put:
+      tags:
+        - sitio
+      summary: Actualiza un sitio
+      description: Actualiza los datos de un sitio
+      operationId: updateSitio
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - sitioId
+              properties:
+                sitioId:
+                  type: string
+                nombre:
+                  type: string
+                descripcion:
+                   type: string
+                ciudad:
+                  type: string
+                rating:
+                  type: integer
+                pagina: 
+                  type: string
+                numero:
+                 type: integer
+                horario:
+                   type: string
+                val:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - valId
+                    properties:
+                      valId:
+                         type: string
+                      autor:
+                        type: string
+                      titulo:
+                        type: string
+                      descripcion:
+                        type: string
+                      fecha:
+                        type: string 
+                        description: Start date 
+                        example: "01-01-2017"
+                        format: date          
+                      estrellas:
+                        type: integer
+                      likes:
+                        type: integer
+                      sitioId:
+                        type: string
+              example:
+                  sitioId: "s3"
+                  nombre: "Ferreterias manolo"
+                  description: "La ferreteria de manolo"
+                  ciudad: "Sevilla"
+                  rating: 4
+                  pagina: "https://ferreteriawebmanolo.es"
+                  numero: 955772234
+                  horario: "9:00-21:00"
+                  val:
+                    valId: "v1"
+                    autor: "Antonio Pérez"
+                    titulo: "Lo disfruté"
+                    description: "Un gran sitio para ir con la familia"
+                    fecha: "01-01-2017"
+                    estrellas: 4
+                    likes: 50
+                    sitioId: "s3"
+        description: Sitio a actualizar
+      responses:
+        '204':
+          description: Sitio actualizado
+        '400':
+          description: Bad request
+        '404':
+          description: Sitio no encontrado
+  '/sitio/{sitioId}':
+    get:
+      tags:
+        - sitio
+      summary: Devuelve un sitio
+      description: Devuelve un sitio cuya id coincida con la id proporcionada
+      operationId: getSitio
+      parameters:
+        - name: sitioId
+          in: path
+          description: Id del sitio
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Sitio encontrado
+          content:
+            application/json:
+              schema:
+                required:
+                  - name
+                properties:
+                  sitioId:
+                    type: string
+                  nombre:
+                    type: string
+                  descripcion:
+                     type: string
+                  ciudad:
+                    type: string
+                  rating:
+                    type: integer
+                  pagina: 
+                    type: string
+                  numero:
+                   type: integer
+                  horario:
+                     type: string
+                  val:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - valId
+                      properties:
+                        valId:
+                           type: string
+                        autor:
+                          type: string
+                        titulo:
+                          type: string
+                        descripcion:
+                          type: string
+                        fecha:
+                          type: string 
+                          description: Start date 
+                          example: "01-01-2017"
+                          format: date          
+                        estrellas:
+                          type: integer
+                        likes:
+                          type: integer
+                        sitioId:
+                          type: string
+                example:
+                  sitioId: "s3"
+                  nombre: "Ferreterias manolo"
+                  description: "La ferreteria de manolo"
+                  ciudad: "Sevilla"
+                  rating: 4
+                  pagina: "https://ferreteriawebmanolo.es"
+                  numero: 955772234
+                  horario: "9:00-21:00"
+                  val:
+                    valId: "v1"
+                    autor: "Antonio Pérez"
+                    titulo: "Lo disfruté"
+                    description: "Un gran sitio para ir con la familia"
+                    fecha: "01-01-2017"
+                    estrellas: 4
+                    likes: 50
+                    sitioId: "s3"
+        '404':
+          description: Sitio no encontrado
+    delete:
+      tags:
+        - sitio
+      summary: Elimina el sitio
+      description: Elimina al sitio que coincida con la id dada
+      operationId: removeEquipo
+      parameters:
+        - name: sitioId
+          in: path
+          description: Id del equipo
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Equipo eliminado
+        '404':
+          description: Equipo no encontrado  
+  '/sitio/{sitioId}/{valId}':
+    post:
+      tags:
+        - sitio
+      summary: Añadir valoracion a sitio
+      description: Añade una nueva valoracion al sitio asigando por la id
+      operationId: addValoracionASitio
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+      parameters:
+        - name: sitioId
+          in: path
+          description: Id del sitio
+          required: true
+          schema:
+            type: string
+        - name: valId
+          in: path
+          description: Id de la valoracion
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Valoracion añadida al sitio
+          content:
+            application/json:
+              schema:
+                required:
+                  - name
+                properties:
+                  sitioId:
+                    type: string
+                  nombre:
+                    type: string
+                  descripcion:
+                     type: string
+                  ciudad:
+                    type: string
+                  rating:
+                    type: integer
+                  pagina: 
+                    type: string
+                  numero:
+                   type: integer
+                  horario:
+                     type: string
+                  val:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - valId
+                      properties:
+                        valId:
+                           type: string
+                        autor:
+                          type: string
+                        titulo:
+                          type: string
+                        descripcion:
+                          type: string
+                        fecha:
+                          type: string 
+                          description: Start date 
+                          example: "01-01-2017"
+                          format: date          
+                        estrellas:
+                          type: integer
+                        likes:
+                          type: integer
+                        sitioId:
+                          type: string
+                example:
+                  id: p5
+                  name: Favourites
+                  description: My favourite songs
+                  songs:
+                    - id: s1
+                      title: Rolling in the Deep
+                      artist: Adele
+                      album: '21'
+                      year: '2011'
+        '400':
+          description: Mala peticion
+        '404':
+          description: El sitio o la valoracion no existe
+    delete:
+      tags:
+        - sitio
+      summary: Elimina una valoracion del sitio
+      description: Elimina la cancion cuya id coincida con la id del sitio dado
+      operationId: deleteValoracionfromSitio
+      parameters:
+        - name: sitioId
+          in: path
+          description: Id del sitio
+          required: true
+          schema:
+            type: string
+        - name: valId
+          in: path
+          description: Id de la valoracion
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Valoracion eliminada del sitio
+        '404':
+          description: Jugador o equipo no encontrado
