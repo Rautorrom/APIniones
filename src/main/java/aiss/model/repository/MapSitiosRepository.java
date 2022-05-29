@@ -185,4 +185,8 @@ public class MapSitiosRepository implements SitiosRepository{
 		valMap.remove(valId);
 	}
 	
+	//Pokemon related operations
+	
+	
+	
 }
