@@ -1,9 +1,9 @@
-package aiss.model.repository;
+package apiniones.model.repository;
 
 import java.util.Collection;
 
-import aiss.model.Sitio;
-import aiss.model.Valoracion;
+import apiniones.model.Sitio;
+import apiniones.model.Valoracion;
 
 public interface SitiosRepository {
 	

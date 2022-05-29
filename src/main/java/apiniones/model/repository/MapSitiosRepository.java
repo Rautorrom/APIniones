@@ -1,4 +1,4 @@
-package aiss.model.repository;
+package apiniones.model.repository;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -6,8 +6,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import aiss.model.Sitio;
-import aiss.model.Valoracion;
+import apiniones.model.Sitio;
+import apiniones.model.Valoracion;
 
 
 public class MapSitiosRepository implements SitiosRepository{

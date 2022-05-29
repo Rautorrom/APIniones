@@ -1,4 +1,4 @@
-package aiss.api.resources;
+package apiniones.api.resources;
 
 import java.net.URI;
 import java.util.Collection;
@@ -24,14 +24,10 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import org.jboss.resteasy.spi.BadRequestException;
 import org.jboss.resteasy.spi.NotFoundException;
 
-import aiss.model.Sitio;
-import aiss.model.Valoracion;
-import aiss.model.repository.MapSitiosRepository;
-import aiss.model.repository.SitiosRepository;
-
-
-
-
+import apiniones.model.Sitio;
+import apiniones.model.Valoracion;
+import apiniones.model.repository.MapSitiosRepository;
+import apiniones.model.repository.SitiosRepository;
 
 
 @Path("/sitios")
@@ -110,7 +106,10 @@ public class SitioResource {
 	@Produces("application/json")
 	public Response addSitio(@Context UriInfo uriInfo, Sitio sitio) {
 		if (sitio.getName() == null || sitio.getName().equals(""))
-			throw new BadRequestException("The name of the place must not be null");
+			throw new BadRequestException("El nombre del sitio no puede ser nulo");
+		
+		if (sitio.getValoracion()!=null)
+			throw new BadRequestException("Error con las valoraciones del sitio");
 
 		repository.addSitio(sitio);
 
@@ -128,14 +127,14 @@ public class SitioResource {
 	public Response updateSitio(Sitio sitio) {
 		Sitio oldSitio = repository.getSitio(sitio.getId());
 		if (oldSitio == null) {
-			throw new NotFoundException("The place with id="+ sitio.getId() +" was not found");			
+			throw new NotFoundException("El sitio con el id="+ sitio.getId() +" no ha sido encontrado.");			
 		}
 		
 		if (sitio.getId()!=null)
-			throw new BadRequestException("The Id property is not editable.");
+			throw new BadRequestException("La Id no es editable.");
 		
 		if (sitio.getValoracion()!=null)
-			throw new BadRequestException("The Reviews property is not editable.");
+			throw new BadRequestException("Las valoraciones no son editables.");
 		
 		// Update name
 		if (sitio.getName()!=null)
@@ -169,7 +168,7 @@ public class SitioResource {
 	public Response removeSitio(@PathParam("id") String id) {
 		Sitio toBeRemoved=repository.getSitio(id);
 		if (toBeRemoved == null)
-			throw new NotFoundException("The place with id="+ id +" was not found");
+			throw new NotFoundException("El sitio con el id="+ id +" no ha sido encontrado.");
 		else
 			repository.deleteSitio(id);
 		
@@ -188,13 +187,13 @@ public class SitioResource {
 		Valoracion val = repository.getValoracion(valId);
 		
 		if (sitio==null)
-			throw new NotFoundException("The place with id=" + sitioId + " was not found");
+			throw new NotFoundException("El sitio con el id="+ sitioId +" no ha sido encontrado.");
 		
 		if (val == null)
-			throw new NotFoundException("The review with id=" + valId + " was not found");
+			throw new NotFoundException("La valoración con el id="+ valId +" no ha sido encontrada.");
 		
 		if (sitio.getValoracion(valId)!=null)
-			throw new BadRequestException("The review is already included for this place.");
+			throw new BadRequestException("La valoración ya está incluida en este sitio.");
 			
 		repository.addValoracion(sitioId, valId);		
 
@@ -214,10 +213,10 @@ public class SitioResource {
 		Valoracion val = repository.getValoracion(valId);
 		
 		if (sitio==null)
-			throw new NotFoundException("The place with id=" + sitioId + " was not found");
+			throw new NotFoundException("El sitio con el id="+ sitioId +" no ha sido encontrado.");
 		
 		if (val == null)
-			throw new NotFoundException("The review with id=" + valId + " was not found");
+			throw new NotFoundException("La valoración con el id="+ valId +" no ha sido encontrada.");
 		
 		
 		repository.removeValoracion(sitioId, valId);		

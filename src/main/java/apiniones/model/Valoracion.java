@@ -1,4 +1,4 @@
-package aiss.model;
+package apiniones.model;
 
 import java.time.LocalDate;
 import java.util.List;

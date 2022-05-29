@@ -1,4 +1,4 @@
-package aiss.api.resources;
+package apiniones.api.resources;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -19,10 +19,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriBuilder;
 
-import aiss.model.Valoracion;
-import aiss.model.repository.MapSitiosRepository;
-import aiss.model.repository.SitiosRepository;
-
+import apiniones.model.Valoracion;
+import apiniones.model.repository.MapSitiosRepository;
+import apiniones.model.repository.SitiosRepository;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -30,8 +29,6 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-
-
 
 
 @Path("/valoracion")
