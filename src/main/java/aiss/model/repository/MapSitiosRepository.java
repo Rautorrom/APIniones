@@ -201,6 +201,11 @@ public class MapSitiosRepository implements SitiosRepository{
 		ClientResource cr = new ClientResource(uri);
 		return cr.get(Pokemon.class);
 	}
+	public Pokemon getPokemonByName(String name) {
+		String uri = "https://pokemonapiaiss.lm.r.appspot.com/api/pokemon/p" + name ;
+		ClientResource cr = new ClientResource(uri);
+		return cr.get(Pokemon.class);
+	}
 	
 	public void addPokemonComoSitio(Pokemon p) {
         String id = "s" + indexSitio++;
