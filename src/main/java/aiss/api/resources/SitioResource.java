@@ -78,18 +78,20 @@ public class SitioResource {
 		}
 		
 		if (order!=null) {
+			List<Sitio> allSitiosList = (List<Sitio>) allSitios;
 			if (order=="name") {
-				((List<Sitio>) allSitios).sort(Comparator.comparing(Sitio::getName));
+				allSitiosList.sort(Comparator.comparing(Sitio::getName));
 			}
 			if (order=="-name") {
-				((List<Sitio>) allSitios).sort(Comparator.comparing(Sitio::getName).reversed());
+				allSitiosList.sort(Comparator.comparing(Sitio::getName).reversed());
 			}
 			if (order=="name") {
-				((List<Sitio>) allSitios).sort(Comparator.comparing(Sitio::getRating));
+				allSitiosList.sort(Comparator.comparing(Sitio::getRating));
 			}
 			if (order=="name") {
-				((List<Sitio>) allSitios).sort(Comparator.comparing(Sitio::getRating).reversed());
+				allSitiosList.sort(Comparator.comparing(Sitio::getRating).reversed());
 			}
+			allSitios = allSitiosList;
 		}
  		return allSitios;
 	}

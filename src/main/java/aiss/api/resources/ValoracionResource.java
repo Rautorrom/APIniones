@@ -7,6 +7,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -16,8 +17,12 @@ import aiss.model.Valoracion;
 import aiss.model.repository.MapSitiosRepository;
 import aiss.model.repository.SitiosRepository;
 
+import java.time.LocalDate;
 import java.util.Collection;
-// TODO Hay que hacer todo de esta clase(laboratorio 5)
+import java.util.Comparator;
+import java.util.List;
+
+
 
 
 @Path("/valoracion")
@@ -39,9 +44,42 @@ public class ValoracionResource {
 	
 	@GET
 	@Produces("application/json")
-	public Collection<Valoracion> getAll()
+	public Collection<Valoracion> getAll(@QueryParam("autor") String autor,
+			@QueryParam("fecha") LocalDate fecha, @QueryParam("rating") Integer rating, @QueryParam("order") String order)
 	{
-		return null;
+		
+		Collection<Valoracion> allValoraciones = repository.getAllValoraciones();
+		
+		if (autor != null) {
+			allValoraciones = allValoraciones.stream().filter(val->val.getAutor()==autor).toList();
+		}
+		
+		if (fecha != null  ) {
+			allValoraciones = allValoraciones.stream().filter(val->val.getFecha().compareTo(fecha)>0).toList();
+		}
+		
+		if (rating != null) {
+			allValoraciones = allValoraciones.stream().filter(val->val.getEstrellas()==rating).toList();
+		}
+		
+		if (order != null) {
+			List<Valoracion> allValoracionesList = ((List<Valoracion>) allValoraciones);
+			if (order=="fecha") {
+				allValoracionesList.sort(Comparator.comparing(Valoracion::getFecha));
+			}
+			if (order=="-fecha") {
+				 allValoracionesList.sort(Comparator.comparing(Valoracion::getFecha).reversed());
+			}
+			if (order=="rating") {
+				allValoracionesList.sort(Comparator.comparing(Valoracion::getEstrellas));
+			}
+			if (order=="-rating") {
+				allValoracionesList.sort(Comparator.comparing(Valoracion::getEstrellas).reversed());
+			}
+			allValoraciones = allValoracionesList;
+			
+		}
+		return allValoraciones;
 	}
 	
 	
@@ -50,7 +88,8 @@ public class ValoracionResource {
 	@Produces("application/json")
 	public Valoracion get(@PathParam("id") String valoracionId)
 	{
-		return null;
+		Valoracion val = repository.getValoracion(valoracionId);
+		return val;
 	}
 	
 	@POST
