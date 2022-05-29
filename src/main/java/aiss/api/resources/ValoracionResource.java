@@ -52,7 +52,7 @@ public class ValoracionResource {
 	
 	@GET
 	@Produces("application/json")
-	public Collection<Valoracion> getAll(@QueryParam("autor") String autor,
+	public Collection<Valoracion> getAllValoraciones(@QueryParam("autor") String autor,
 										@QueryParam("fecha") String fechaQueried,
 										@QueryParam("rating") String rating, 
 										@QueryParam("order") String order)
@@ -79,6 +79,12 @@ public class ValoracionResource {
 		}
 		
 		if (order != null) {
+			if (order.compareTo("autor")==0) {
+				allValoraciones.sort(Comparator.comparing(Valoracion::getAutor));
+			}
+			if (order.compareTo("-autor")==0) {
+				 allValoraciones.sort(Comparator.comparing(Valoracion::getAutor).reversed());
+			}
 			
 			if (order.compareTo("fecha")==0) {
 				allValoraciones.sort(Comparator.comparing(Valoracion::getFecha));
@@ -162,7 +168,7 @@ public class ValoracionResource {
 	
 	@DELETE
 	@Path("/{id}")
-	public Response removeValoracion(@PathParam("id") String valId) {
+	public Response deleteValoracion(@PathParam("id") String valId) {
 		repository.deleteValoracion("v"+valId);
 		return Response.noContent().build();
 	}

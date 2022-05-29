@@ -52,7 +52,7 @@ public class SitioResource {
 
 	@GET
 	@Produces("application/json")
-	public Collection<Sitio> getAll(@QueryParam("limit") String limitQueried, 
+	public Collection<Sitio> getAllSitios(@QueryParam("limit") String limitQueried, 
 									@QueryParam("ciudad") String ciudad, 
 									@QueryParam("rating") String rating,
 									@QueryParam("order") String order)
@@ -75,10 +75,10 @@ public class SitioResource {
 		
 		if (order!=null) {
 			
-			if (order.compareTo("name") == 0) {
+			if (order.compareTo("nombre") == 0) {
 				allSitios.sort(Comparator.comparing(Sitio::getName));
 			}
-			if (order.compareTo("-name") == 0) {
+			if (order.compareTo("-nombre") == 0) {
 				allSitios.sort(Comparator.comparing(Sitio::getName).reversed());
 			}
 			if (order.compareTo("rating") == 0) {
@@ -103,7 +103,7 @@ public class SitioResource {
 	@GET
 	@Path("/{id}")
 	@Produces("application/json")
-	public Sitio get(@PathParam("id") String id)
+	public Sitio getSitio(@PathParam("id") String id)
 	{
         Sitio sitio = repository.getSitio("s"+id);
         return sitio;
@@ -173,7 +173,7 @@ public class SitioResource {
 	 
 	@DELETE
 	@Path("/{id}")
-	public Response removeSitio(@PathParam("id") String id) {
+	public Response deleteSitio(@PathParam("id") String id) {
 		Sitio toBeRemoved=repository.getSitio(id);
 		if (toBeRemoved == null)
 			throw new NotFoundException("El sitio con el id="+ id +" no ha sido encontrado.");
@@ -185,10 +185,10 @@ public class SitioResource {
 	
 	
 	@POST	
-	@Path("/{sitioId}/{valId}")
+	@Path("/{id}/{valId}")
 	@Consumes("text/plain")
 	@Produces("application/json")
-	public Response addValoracion(@Context UriInfo uriInfo,@PathParam("sitioId") String sitioId, @PathParam("valId") String valId)
+	public Response addValoracionASitio(@Context UriInfo uriInfo,@PathParam("id") String sitioId, @PathParam("valId") String valId)
 	{				
 		
 		Sitio sitio = repository.getSitio(sitioId);
@@ -215,8 +215,8 @@ public class SitioResource {
 	
 	
 	@DELETE
-	@Path("/{sitioId}/{valId}")
-	public Response removeValoracion(@PathParam("playlistId") String sitioId, @PathParam("songId") String valId) {
+	@Path("/{id}/{valId}")
+	public Response deleteValoracionfromSitio(@PathParam("id") String sitioId, @PathParam("valId") String valId) {
 		Sitio sitio = repository.getSitio(sitioId);
 		Valoracion val = repository.getValoracion(valId);
 		
@@ -227,7 +227,7 @@ public class SitioResource {
 			throw new NotFoundException("La valoración con el id="+ valId +" no ha sido encontrada.");
 		
 		
-		repository.removeValoracion(sitioId, valId);		
+		repository.deleteValoracionfromSitio(sitioId, valId);		
 		
 		return Response.noContent().build();
 	}
