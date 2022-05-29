@@ -6,14 +6,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import aiss.model.Sitios;
-import aiss.model.Valoraciones;
+import aiss.model.Sitio;
+import aiss.model.Valoracion;
 
 
 public class MapSitiosRepository implements SitiosRepository{
 
-	Map<String, Sitios> sitioMap;
-	Map<String, Valoraciones> valMap;
+	Map<String, Sitio> sitioMap;
+	Map<String, Valoracion> valMap;
 	private static MapSitiosRepository instance=null;
 	private int index=0;			// Index to create playlists and songs' identifiers.
 	
@@ -30,19 +30,19 @@ public class MapSitiosRepository implements SitiosRepository{
 	
 	public void init() {
 		
-		sitioMap = new HashMap<String,Sitios>();
-		valMap = new HashMap<String,Valoraciones>();
+		sitioMap = new HashMap<String,Sitio>();
+		valMap = new HashMap<String,Valoracion>();
 		
 		// Create valoracion
-		Valoraciones val1=new Valoraciones();
+		Valoracion val1=new Valoracion();
 		val1.setAutor("Raul");
-		val1.setDescripcion("Increible experiencia pero no repetiría");
+		val1.setDescripcion("Increible experiencia pero no repetirï¿½a");
 		val1.setFecha(LocalDate.parse("03/06/2018",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 		val1.setEstrellas(5);
 		val1.setSitioId("p1");
 		addValoracion(val1);
 		
-		Valoraciones one=new Valoraciones();
+		Valoracion one=new Valoracion();
 		one.setAutor("Santi");
 		one.setDescripcion("Pille el covid pero no veas como estaba la rubia con la que me lie");
 		one.setFecha(LocalDate.parse("02/05/2018",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
@@ -50,7 +50,7 @@ public class MapSitiosRepository implements SitiosRepository{
 		one.setSitioId("p0");
 		addValoracion(one);
 		
-		Valoraciones val2=new Valoraciones();
+		Valoracion val2=new Valoracion();
 		val2.setAutor("Alvaro");
 		val2.setDescripcion("No aguanto mas este antro, el trato horrible");
 		val2.setFecha(LocalDate.parse("01/04/2018",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
@@ -58,7 +58,7 @@ public class MapSitiosRepository implements SitiosRepository{
 		val2.setSitioId("p0");
 		addValoracion(val2);
 		
-		Valoraciones val3=new Valoraciones();
+		Valoracion val3=new Valoracion();
 		val3.setAutor("Adrian");
 		val3.setDescripcion("Me encanta este sitio de mis favoritos");
 		val3.setFecha(LocalDate.parse("02/12/2015",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
@@ -66,7 +66,7 @@ public class MapSitiosRepository implements SitiosRepository{
 		val3.setSitioId("p1");
 		addValoracion(val3);
 		
-		Valoraciones gotye=new Valoraciones();
+		Valoracion gotye=new Valoracion();
 		gotye.setAutor("Laura");
 		gotye.setDescripcion("Una experiencia insuperable");
 		gotye.setFecha(LocalDate.parse("23/02/2002",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
@@ -75,23 +75,23 @@ public class MapSitiosRepository implements SitiosRepository{
 		addValoracion(gotye);
 		
 		// Create sitio
-		Sitios playa=new Sitios();
+		Sitio playa=new Sitio();
 		playa.setName("Playa de Mintonete");
 		playa.setDescription("Playa situada en mintonete");
 		playa.setCiudad("Mintonete");
 		playa.setRating();
 		playa.setPagina("https://playademintonete.es");
-		playa.setNumero(654321978);
+		playa.setTlf(654321978);
 		playa.setHorario("8:00-21:00");
 		addSitio(playa);
 		
-		Sitios discoteca = new Sitios();
+		Sitio discoteca = new Sitio();
 		discoteca.setName("Occo");
 		discoteca.setDescription("Discoteca de Sevilla");
 		discoteca.setCiudad("Sevilla");
 		discoteca.setRating();
 		discoteca.setPagina("https://occo.es");
-		discoteca.setNumero(987654321);
+		discoteca.setTlf(987654321);
 		discoteca.setHorario("00:00-7:00");
 		addSitio(discoteca);
 		
@@ -107,24 +107,24 @@ public class MapSitiosRepository implements SitiosRepository{
 	
 	// Playlist related operations
 	@Override
-	public void addSitio(Sitios s) {
+	public void addSitio(Sitio s) {
 		String id = "s" + index++;	
 		s.setId(id);
 		sitioMap.put(id,s);
 	}
 	
 	@Override
-	public Collection<Sitios> getAllSitios() {
+	public Collection<Sitio> getAllSitios() {
 			return sitioMap.values();
 	}
 
 	@Override
-	public Sitios getSitio(String id) {
+	public Sitio getSitio(String id) {
 		return sitioMap.get(id);
 	}
 	
 	@Override
-	public void updateSitio(Sitios p) {
+	public void updateSitio(Sitio p) {
 		sitioMap.put(p.getId(),p);
 	}
 
@@ -136,12 +136,12 @@ public class MapSitiosRepository implements SitiosRepository{
 
 	@Override
 	public void addValoracion(String playlistId, String songId) {
-		Sitios playlist = getSitio(playlistId);
+		Sitio playlist = getSitio(playlistId);
 		playlist.addValoracion(valMap.get(songId));
 	}
 
 	@Override
-	public Collection<Valoraciones> getAll(String playlistId) {
+	public Collection<Valoracion> getAll(String playlistId) {
 		return getSitio(playlistId).getValoracion();
 	}
 
@@ -154,7 +154,7 @@ public class MapSitiosRepository implements SitiosRepository{
 	// Valoraciones related operations
 	
 	@Override
-	public void addValoracion(Valoraciones v) {
+	public void addValoracion(Valoracion v) {
 		String id = "v" + index++;
 		v.setId(id);
 		valMap.put(id, v);
@@ -162,18 +162,18 @@ public class MapSitiosRepository implements SitiosRepository{
 	}
 	
 	@Override
-	public Collection<Valoraciones> getAllValoraciones() {
+	public Collection<Valoracion> getAllValoraciones() {
 			return valMap.values();
 	}
 
 	@Override
-	public Valoraciones getValoracion(String songId) {
+	public Valoracion getValoracion(String songId) {
 		return valMap.get(songId);
 	}
 
 	@Override
-	public void updateValoracion(Valoraciones s) {
-		Valoraciones val = valMap.get(s.getId());
+	public void updateValoracion(Valoracion s) {
+		Valoracion val = valMap.get(s.getId());
 		val.setAutor(s.getAutor());
 		val.setDescripcion(s.getDescripcion());
 		val.setFecha(s.getFecha());

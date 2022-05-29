@@ -3,7 +3,7 @@ package aiss.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sitios {
+public class Sitio {
 
 	private String id;
 	private String name;
@@ -11,18 +11,18 @@ public class Sitios {
 	private String ciudad;
 	private Double rating;
 	private String pagina;
-	private Integer numero;
+	private Integer tlf;
 	private String horario;
-	private List<Valoraciones> val;
+	private List<Valoracion> val;
 	
-	public Sitios() {}
+	public Sitio() {}
 	
-	public Sitios(String name) {
+	public Sitio(String name) {
 		this.name = name;
 		
 	}
 	
-	protected void setValoracion(List<Valoraciones> s) {
+	protected void setValoracion(List<Valoracion> s) {
 		val = s;
 	}
 	
@@ -58,12 +58,12 @@ public class Sitios {
 		this.pagina = pagina;
 	}
 	
-	public Integer getNumero() {
-		return numero;
+	public Integer getTlf() {
+		return tlf;
 	}
 
-	public void setNumero(Integer numero) {
-		this.numero = numero;
+	public void setTlf(Integer numero) {
+		this.tlf = numero;
 	}
 	
 	public String getHorario() {
@@ -88,23 +88,23 @@ public class Sitios {
 
 	public void setRating() {
 		Integer suma = 0;
-		for(Valoraciones valor : val) {
+		for(Valoracion valor : val) {
 			suma += valor.getEstrellas();
 		}
 		rating = (double)suma/val.size();
 	}
 
 	
-	public List<Valoraciones> getValoracion() {
+	public List<Valoracion> getValoracion() {
 		return val;
 	}
 	
-	public Valoraciones getValoracion(String valId) {
+	public Valoracion getValoracion(String valId) {
 		if (val==null)
 			return null;
 		
-		Valoraciones song =null;
-		for(Valoraciones s: val)
+		Valoracion song =null;
+		for(Valoracion s: val)
 			if (s.getId().equals(valId))
 			{
 				song=s;
@@ -114,20 +114,20 @@ public class Sitios {
 		return song;
 	}
 	
-	public void addValoracion(Valoraciones s) {
+	public void addValoracion(Valoracion s) {
 		if (val==null)
-			val = new ArrayList<Valoraciones>();
+			val = new ArrayList<Valoracion>();
 		val.add(s);
 		setRating();
 	}
 	
-	public void deleteValoracion(Valoraciones s) {
+	public void deleteValoracion(Valoracion s) {
 		val.remove(s);
 		setRating();
 	}
 	
 	public void deleteValoracion(String id) {
-		Valoraciones s = getValoracion(id);
+		Valoracion s = getValoracion(id);
 		if (s!=null)
 			val.remove(s);
 		setRating();

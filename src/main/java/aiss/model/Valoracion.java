@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 
-public class Valoraciones {
+public class Valoracion {
 
 	private String id;
 	private String autor;
@@ -15,10 +15,10 @@ public class Valoraciones {
 	private String sitioId;
 
 
-	public Valoraciones() {
+	public Valoracion() {
 	}
 
-	public Valoraciones(String autor, String descripcion, LocalDate fecha, Integer estrellas, List<String> likes, String sitioId) {
+	public Valoracion(String autor, String descripcion, LocalDate fecha, Integer estrellas, List<String> likes, String sitioId) {
 		this.autor = autor;
 		this.descripcion = descripcion;
 		this.fecha = fecha;
@@ -27,7 +27,7 @@ public class Valoraciones {
 		this.sitioId = sitioId;
 	}
 	
-	public Valoraciones(String id, String autor, String descripcion, LocalDate fecha, Integer estrellas, List<String> likes, String sitioId) {
+	public Valoracion(String id, String autor, String descripcion, LocalDate fecha, Integer estrellas, List<String> likes, String sitioId) {
 		this.id=id;
 		this.autor = autor;
 		this.descripcion = descripcion;

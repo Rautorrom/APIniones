@@ -12,7 +12,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response;
 
-import aiss.model.Valoraciones;
+import aiss.model.Valoracion;
 import aiss.model.repository.MapSitiosRepository;
 import aiss.model.repository.SitiosRepository;
 
@@ -39,7 +39,7 @@ public class ValoracionResource {
 	
 	@GET
 	@Produces("application/json")
-	public Collection<Valoraciones> getAll()
+	public Collection<Valoracion> getAll()
 	{
 		return null;
 	}
@@ -48,7 +48,7 @@ public class ValoracionResource {
 	@GET
 	@Path("/{id}")
 	@Produces("application/json")
-	public Valoraciones get(@PathParam("id") String valoracionId)
+	public Valoracion get(@PathParam("id") String valoracionId)
 	{
 		return null;
 	}
@@ -56,7 +56,7 @@ public class ValoracionResource {
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response addSong(@Context UriInfo uriInfo, Valoraciones valoracion) {
+	public Response addSong(@Context UriInfo uriInfo, Valoracion valoracion) {
 		
 		return null;
 	}
@@ -64,7 +64,7 @@ public class ValoracionResource {
 	
 	@PUT
 	@Consumes("application/json")
-	public Response updateSong(Valoraciones song) {
+	public Response updateSong(Valoracion song) {
 		return null;
 	}
 	
