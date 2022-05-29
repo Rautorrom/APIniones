@@ -140,13 +140,13 @@ public class MapSitiosRepository implements SitiosRepository{
 	}
 
 	@Override
-	public Collection<Valoracion> getAll(String playlistId) {
-		return getSitio(playlistId).getValoracion();
+	public Collection<Valoracion> getAll(String sitioId) {
+		return getSitio(sitioId).getValoracion();
 	}
 
 	@Override
-	public void removeValoracion(String playlistId, String valId) {
-		getSitio(playlistId).deleteValoracion(valId);
+	public void removeValoracion(String sitioId, String valId) {
+		getSitio(sitioId).deleteValoracion(valId);
 	}
 
 	
@@ -166,8 +166,8 @@ public class MapSitiosRepository implements SitiosRepository{
 	}
 
 	@Override
-	public Valoracion getValoracion(String songId) {
-		return valMap.get(songId);
+	public Valoracion getValoracion(String valId) {
+		return valMap.get(valId);
 	}
 
 	@Override
