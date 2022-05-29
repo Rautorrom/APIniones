@@ -11,14 +11,14 @@ public class Valoracion {
 	private String descripcion;
 	private LocalDate fecha;
 	private Integer estrellas;
-	private List<String> likes;
+	private Integer likes;
 	private String sitioId;
 
 
 	public Valoracion() {
 	}
 
-	public Valoracion(String autor, String descripcion, LocalDate fecha, Integer estrellas, List<String> likes, String sitioId) {
+	public Valoracion(String autor, String descripcion, LocalDate fecha, Integer estrellas, Integer likes, String sitioId) {
 		this.autor = autor;
 		this.descripcion = descripcion;
 		this.fecha = fecha;
@@ -27,7 +27,7 @@ public class Valoracion {
 		this.sitioId = sitioId;
 	}
 	
-	public Valoracion(String id, String autor, String descripcion, LocalDate fecha, Integer estrellas, List<String> likes, String sitioId) {
+	public Valoracion(String id, String autor, String descripcion, LocalDate fecha, Integer estrellas, Integer likes, String sitioId) {
 		this.id=id;
 		this.autor = autor;
 		this.descripcion = descripcion;
@@ -78,21 +78,16 @@ public class Valoracion {
 	}
 	
 	public Integer getLikes() {
-		return likes.size();
+		if (likes==null) return 0;
+		return likes;
 	}
 	
-	public List<String> incrementLikes(String usuarioId){
-	     if(likes.contains(usuarioId)) {
-	    	 return decrementLikes(usuarioId);
-	    	 } else {
-	            likes.add(usuarioId);
-	            return likes;
-	        }
-	    }
+	public void incrementLikes(String usuarioId){
+		likes++;
+	}
 	
-	public List<String> decrementLikes(String usuarioId){
-		likes.remove(usuarioId);
-	    return likes;
+	public void decrementLikes(String usuarioId){
+		likes--;
 	}
 	
 	public String getSitioId() {
