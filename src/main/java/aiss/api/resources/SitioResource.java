@@ -115,14 +115,11 @@ public class SitioResource {
 	public Response addSitio(@Context UriInfo uriInfo, Sitio sitio) {
 		if (sitio.getName() == null || sitio.getName().equals(""))
 			throw new BadRequestException("El nombre del sitio no puede ser nulo");
-		
-		if (sitio.getValoracion()!=null)
-			throw new BadRequestException("Error con las valoraciones del sitio");
 
 		repository.addSitio(sitio);
 
 		// Builds the response. Returns the place the has just been added.
-		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "get");
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "getSitio");
 		URI uri = ub.build(sitio.getId());
 		ResponseBuilder resp = Response.created(uri);
 		resp.entity(sitio);			
@@ -206,7 +203,7 @@ public class SitioResource {
 		repository.addValoracionASitio(val.getSitioId(), valId);		
 
 		// Builds the response
-		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "get");
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "getSitio");
 		URI uri = ub.build(sitioId);
 		ResponseBuilder resp = Response.created(uri);
 		resp.entity(sitio);			
