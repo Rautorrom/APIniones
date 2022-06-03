@@ -135,9 +135,7 @@ public class SitioResource {
 			throw new NotFoundException("El sitio con el id="+ sitio.getId() +" no ha sido encontrado.");			
 		}
 		
-		if (sitio.getId()!=null)
-			throw new BadRequestException("La Id no es editable.");
-		
+		//Don't Update valoracion
 		if (sitio.getValoracion()!=null)
 			throw new BadRequestException("Las valoraciones no son editables.");
 		
