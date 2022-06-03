@@ -135,7 +135,7 @@ public class ValoracionResource {
 		
 		repository.addValoracion(valoracion);
 
-		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "get");
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "getValoracion");
 		URI uri = ub.build(valoracion.getId());
 		ResponseBuilder resp = Response.created(uri);
 		resp.entity(valoracion);			
