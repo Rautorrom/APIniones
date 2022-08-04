@@ -54,85 +54,89 @@ public class ValoracionResource {
 	@Produces("application/json")
 	public Collection<Valoracion> getAllValoraciones(@QueryParam("autor") String autor,
 										@QueryParam("fecha") String fechaQueried,
-										@QueryParam("rating") String rating, 
-										@QueryParam("order") String order)
+										@QueryParam("estrellas") String estrellas, 
+										@QueryParam("order") String order,
+										@QueryParam("limit") String limitQueried)
 	{
 		
 		
 		
 		
 		List<Valoracion> allValoraciones = repository.getAllValoraciones().stream().collect(Collectors.toList());
-				
-		if (autor != null) {
+	        
+        if (autor != null) {
 			allValoraciones = allValoraciones.stream().filter(val->val.getAutor().toLowerCase().compareTo(autor.toLowerCase())==0).collect(Collectors.toList());
 		}
 		
 		if (fechaQueried != null  ) {
 			LocalDate fecha = LocalDate.parse(fechaQueried, DateTimeFormatter.ofPattern("dd-MM-uuuu"));
-			allValoraciones = allValoraciones.stream().filter(val->val.getFecha().compareTo(fecha)>0).collect(Collectors.toList());
+			allValoraciones = allValoraciones.stream().filter(val->val.getFecha().compareTo(fecha)>=0).collect(Collectors.toList());
 		}
-		if (rating !=null) {
-			String[] ratingRange = rating.split("-");
-			Double minRating = Math.min(Double.valueOf(ratingRange[0]),Double.valueOf(ratingRange[1]));
-			Double maxRating = Math.max(Double.valueOf(ratingRange[0]),Double.valueOf(ratingRange[1]));
-			allValoraciones = allValoraciones.stream().filter(val -> val.getEstrellas()>minRating && val.getEstrellas()<maxRating).collect(Collectors.toList());
+		if (estrellas !=null) {
+			if (estrellas.contains("-")) {
+				String[] ratingRange = estrellas.split("-");
+				Integer minRating = Math.min(Integer.valueOf(ratingRange[0]),Integer.valueOf(ratingRange[1]));
+				Integer maxRating = Math.max(Integer.valueOf(ratingRange[0]),Integer.valueOf(ratingRange[1]));
+				allValoraciones = allValoraciones.stream().filter(val -> val.getEstrellas()>=minRating && val.getEstrellas()<=maxRating).collect(Collectors.toList());
+			} else {
+				allValoraciones = allValoraciones.stream().filter(val -> val.getEstrellas()==Integer.valueOf(estrellas)).collect(Collectors.toList());
+			}
 		}
 		
 		if (order != null) {
-			if (order.compareTo("autor")==0) {
+			if (order.equals("autor")) {
 				allValoraciones.sort(Comparator.comparing(Valoracion::getAutor));
 			}
-			if (order.compareTo("-autor")==0) {
+			if (order.equals("-autor")) {
 				 allValoraciones.sort(Comparator.comparing(Valoracion::getAutor).reversed());
 			}
 			
-			if (order.compareTo("fecha")==0) {
+			if (order.equals("fecha")) {
 				allValoraciones.sort(Comparator.comparing(Valoracion::getFecha));
 			}
-			if (order.compareTo("-fecha")==0) {
+			if (order.equals("-fecha")) {
 				 allValoraciones.sort(Comparator.comparing(Valoracion::getFecha).reversed());
 			}
-			if (order.compareTo("rating")==0) {
+			if (order.equals("rating")) {
 				allValoraciones.sort(Comparator.comparing(Valoracion::getEstrellas));
 			}
-			if (order.compareTo("-rating")==0) {
+			if (order.equals("-rating")) {
 				allValoraciones.sort(Comparator.comparing(Valoracion::getEstrellas).reversed());
 			}
 			
-			
 		}
-		return allValoraciones;
+		if (limitQueried!=null) {
+			Integer limit = Integer.valueOf(limitQueried);
+			limit = limit > allValoraciones.size() ? allValoraciones.size() : limit ;
+			allValoraciones = allValoraciones.subList(0, limit);
+		}
+        return allValoraciones;
 	}
 	
 	
-	@GET
-	@Path("/{id}")
-	@Produces("application/json")
-	public Valoracion getValoracion(@PathParam("id") String valoracionId)
-	{
-		Valoracion valoracion = repository.getValoracion(valoracionId);
-
-		if(valoracion==null){
-			throw new NotFoundException("La valoracion con id=" + valoracionId + " no se encuentra");			
-		}
-		
-		return valoracion;
-	}
+	
 	
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response addValoracion(@Context UriInfo uriInfo, Valoracion valoracion) {
 		
-		if (valoracion.getAutor() == null || "".equals(valoracion.getAutor()))
+		if (valoracion.getSitioId() == null)
+			throw new BadRequestException("La id del sitio no puede ser nula");
+		
+		if (repository.getSitio(valoracion.getSitioId())==null)
+				throw new BadRequestException("No existe ningún sitio con id: "+valoracion.getSitioId());
+		
+		if (valoracion.getAutor() == null || valoracion.getAutor().equals(""))
 			throw new BadRequestException("El autor no puede estar vacío");
 		
-		if (valoracion.getDescripcion() == null || "".equals(valoracion.getDescripcion()))
-			throw new BadRequestException("La valoración no puede estar vacía");
+		if (valoracion.getDescripcion() == null || valoracion.getDescripcion().equals(""))
+			throw new BadRequestException("La descripción no puede estar vacía");
 
 		if (valoracion.getEstrellas() == null)
 			throw new BadRequestException("Una valoración no puede no tener estrellas");
 		
+		valoracion.setFecha(LocalDate.now());
 		repository.addValoracion(valoracion);
 
 		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "getValoracion");
@@ -153,17 +157,33 @@ public class ValoracionResource {
 			throw new NotFoundException("La valoración con id="+ valoracion.getId() +" no se encuentra");
 		}
 
+		if (valoracion.getAutor()!=null) 
+			oldValoracion.setAutor(valoracion.getAutor());
+		
 		if (valoracion.getDescripcion()!=null)
 			oldValoracion.setDescripcion(valoracion.getDescripcion());
 
 		if (valoracion.getEstrellas()!=null)
 			oldValoracion.setEstrellas(valoracion.getEstrellas());
 
-		if (valoracion.getFecha()!=null)
-			oldValoracion.setFecha(valoracion.getFecha());
-
+		oldValoracion.setFecha(LocalDate.now());
+ 
 		
 		return Response.noContent().build();
+	}
+	
+	@GET
+	@Path("/{id}")
+	@Produces("application/json")
+	public Valoracion getValoracion(@PathParam("id") String valoracionId)
+	{
+		Valoracion valoracion = repository.getValoracion(valoracionId);
+
+		if(valoracion==null){
+			throw new NotFoundException("La valoracion con id=" + valoracionId + " no se encuentra");			
+		}
+		
+		return valoracion;
 	}
 	
 	@DELETE

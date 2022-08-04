@@ -70,7 +70,7 @@ public class MapSitiosRepository implements SitiosRepository{
 		val1.setAutor("Raul");
 		val1.setDescripcion("Increible experiencia pero no repetiría");
 		val1.setFecha(LocalDate.parse("03/06/2018",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-		val1.setEstrellas(5);
+		val1.setEstrellas(3);
 		val1.setSitioId("s1");
 		addValoracion(val1);
 		
@@ -78,7 +78,7 @@ public class MapSitiosRepository implements SitiosRepository{
 		val2.setAutor("Alvaro");
 		val2.setDescripcion("No aguanto mas este antro, el trato horrible");
 		val2.setFecha(LocalDate.parse("01/04/2018",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-		val2.setEstrellas(2);
+		val2.setEstrellas(4);
 		val2.setSitioId("s0");
 		addValoracion(val2);
 		
@@ -94,18 +94,11 @@ public class MapSitiosRepository implements SitiosRepository{
 		gotye.setAutor("Laura");
 		gotye.setDescripcion("Una experiencia insuperable");
 		gotye.setFecha(LocalDate.parse("23/02/2002",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-		gotye.setEstrellas(4);
+		gotye.setEstrellas(2);
 		gotye.setSitioId("s1");
 		addValoracion(gotye);
 		
-		// Añade valoraciones a los sitios
-		addValoracionASitio(playa.getId(), one.getId());
-		addValoracionASitio(playa.getId(), val1.getId());
-		addValoracionASitio(playa.getId(), val2.getId());
-		addValoracionASitio(playa.getId(), val3.getId());
 		
-		addValoracionASitio(discoteca.getId(), val2.getId());
-		addValoracionASitio(discoteca.getId(), gotye.getId());
 	}
 	
 	// Operaciones relacionadas con los Sitios
@@ -136,20 +129,11 @@ public class MapSitiosRepository implements SitiosRepository{
 		sitioMap.remove(id);
 	}
 	
-	@Override
-	public void addValoracionASitio(String sitioId, String valId) {
-		Sitio sitio = getSitio(sitioId);
-		sitio.addValoracion(valMap.get(valId));
-	}
 
 	public Collection<Valoracion> getAllValoraciones(String sitioId) {
-		return getSitio(sitioId).getValoracion();
+		return getSitio(sitioId).getValoraciones();
 	}
 
-	@Override
-	public void deleteValoracionfromSitio(String sitioId, String valId) {
-		getSitio(sitioId).deleteValoracion(valId);
-	}
 
 	
 	// Valoraciones related operations
@@ -159,7 +143,6 @@ public class MapSitiosRepository implements SitiosRepository{
 		String id = "v" + indexValoracion++;
 		v.setId(id);
 		valMap.put(id, v);
-		addValoracionASitio(v.getSitioId(), id);
 	}
 	
 	@Override
@@ -185,7 +168,6 @@ public class MapSitiosRepository implements SitiosRepository{
 	@Override
 	public void deleteValoracion(String valId) {
 		Valoracion valo = getValoracion(valId);
-		deleteValoracionfromSitio(valo.getSitioId(),valId);
 		valMap.remove(valId);
 	}
 	

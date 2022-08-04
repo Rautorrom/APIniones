@@ -19,6 +19,7 @@ public class Valoracion {
 	}
 
 	public Valoracion(String autor, String descripcion, LocalDate fecha, Integer estrellas, Integer likes, String sitioId) {
+		if (estrellas<0 || estrellas>5) throw new IllegalArgumentException("Las estrellas han de ser un valor entre 0 y 5");
 		this.autor = autor;
 		this.descripcion = descripcion;
 		this.fecha = fecha;
@@ -28,6 +29,7 @@ public class Valoracion {
 	}
 	
 	public Valoracion(String id, String autor, String descripcion, LocalDate fecha, Integer estrellas, Integer likes, String sitioId) {
+		if (estrellas<0 || estrellas>5) throw new IllegalArgumentException("Las estrellas han de ser un valor entre 0 y 5");
 		this.id=id;
 		this.autor = autor;
 		this.descripcion = descripcion;
@@ -74,6 +76,7 @@ public class Valoracion {
 	}
 
 	public void setEstrellas(Integer estrellas) {
+		if (estrellas<0 || estrellas>5) throw new IllegalArgumentException("Las estrellas han de ser un valor entre 0 y 5");
 		this.estrellas = estrellas;
 	}
 	

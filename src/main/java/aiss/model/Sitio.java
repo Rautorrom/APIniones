@@ -2,6 +2,9 @@ package aiss.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import aiss.model.repository.MapSitiosRepository;
 
 public class Sitio {
 
@@ -9,11 +12,14 @@ public class Sitio {
 	private String name;
 	private String description;
 	private String ciudad;
-	private Double rating;
 	private String pagina;
 	private Integer tlf;
 	private String horario;
-	private List<Valoracion> val;
+	@SuppressWarnings("unused")
+	//rating is an unused field as it is calculated from its "valoraciones". Yet, it is declared below for the API to locate the rating field
+	//before "valoraciones" and not afterwards.
+	private Double rating;
+	
 	
 	public Sitio() {}
 	
@@ -22,9 +28,7 @@ public class Sitio {
 		
 	}
 	
-	protected void setValoracion(List<Valoracion> s) {
-		val = s;
-	}
+	
 	
 	public String getId() {
 		return id;
@@ -82,59 +86,26 @@ public class Sitio {
 		this.ciudad = ciudad;
 	}
 	
+	
 	public Double getRating() {
-		return rating;
+		List<Valoracion> val = this.getValoraciones();
+		if (val==null || val.size()<1) return 0.;
+		System.out.println(val.size());
+		String res = String.format("%.2f", Double.valueOf(val.stream().map(Valoracion::getEstrellas).reduce(0,(a,b)->a+b))/val.size());
+		return Double.valueOf(res);
 	}
 	
-	public void setRating() {
-		Integer suma = 0;
-		if (val.isEmpty()) {
-			rating = 0.;
-		} else {
-			for(Valoracion valor : val) {
-				suma += valor.getEstrellas();
-			}
-			rating = (double)suma/val.size();
-		}
-	}
-
 	
-	public List<Valoracion> getValoracion() {
-		return val;
+	public List<Valoracion> getValoraciones() {
+		return MapSitiosRepository.getInstance().getAllValoraciones().stream().filter(v->v.getSitioId().equals(this.id)).collect(Collectors.toList());
 	}
 	
 	public Valoracion getValoracion(String valId) {
+		List<Valoracion> val = this.getValoraciones();
 		if (val==null)
 			return null;
 		
-		Valoracion valoracion =null;
-		for(Valoracion s: val)
-			if (s.getId().equals(valId))
-			{
-				valoracion=s;
-				break;
-			}
-		
-		return valoracion;
+		return val.stream().filter(s->s.getId().equals(valId)).findFirst().get();
 	}
 	
-	public void addValoracion(Valoracion s) {
-		if (val==null)
-			val = new ArrayList<Valoracion>();
-		val.add(s);
-		setRating();
-	}
-	
-	public void deleteValoracion(Valoracion s) {
-		val.remove(s);
-		setRating();
-	}
-	
-	public void deleteValoracion(String id) {
-		Valoracion s = getValoracion(id);
-		if (s!=null)
-			val.remove(s);
-		setRating();
-	}
-
 }
