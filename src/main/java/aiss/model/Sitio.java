@@ -29,7 +29,6 @@ public class Sitio {
 	}
 	
 	
-	
 	public String getId() {
 		return id;
 	}
