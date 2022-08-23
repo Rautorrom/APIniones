@@ -99,6 +99,10 @@ public class Valoracion {
 		return sitioId;
 	}
 
+
+	public void setSitioId(String sitioId) {
+		this.sitioId = sitioId;
+	}
 	
 	public String getUserId() {
 		return userId;
