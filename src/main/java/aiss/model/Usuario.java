@@ -1,7 +1,10 @@
 package aiss.model;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 public class Usuario {
-	private String id;
+	private String userId;
 	private String nombre;
 	private String apellidos;
 	private Integer edad; 
@@ -13,12 +16,12 @@ public class Usuario {
 
 
 	public String getUserId() {
-		return id;
+		return userId;
 	}
 
 
-	public void setUserId(String id) {
-		this.id = id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 
@@ -51,6 +54,7 @@ public class Usuario {
 		this.edad = edad;
 	}
 	public Integer getNumvaloraciones() {
-		 return getAllValoraciones().filter(v->v.getUserId.equals(this.userId)).toList();
+		 return aiss.model.repository.MapSitiosRepository.getInstance().getAllValoraciones().stream().filter(v->v.getUserId().equals(this.userId))
+				 .collect(Collectors.toList()).size();
 	}
 }

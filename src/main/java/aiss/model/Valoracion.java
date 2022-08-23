@@ -13,12 +13,12 @@ public class Valoracion {
 	private Integer estrellas;
 	private Integer likes;
 	private String sitioId;
-
+	private String userId;
 
 	public Valoracion() {
 	}
 
-	public Valoracion(String autor, String descripcion, LocalDate fecha, Integer estrellas, Integer likes, String sitioId) {
+	public Valoracion(String autor, String descripcion, LocalDate fecha, Integer estrellas, Integer likes, String sitioId, String userId) {
 		if (estrellas<0 || estrellas>5) throw new IllegalArgumentException("Las estrellas han de ser un valor entre 0 y 5");
 		this.autor = autor;
 		this.descripcion = descripcion;
@@ -26,9 +26,10 @@ public class Valoracion {
 		this.estrellas = estrellas;
 		this.likes= likes;
 		this.sitioId = sitioId;
+		this.userId = userId;
 	}
 	
-	public Valoracion(String id, String autor, String descripcion, LocalDate fecha, Integer estrellas, Integer likes, String sitioId) {
+	public Valoracion(String id, String autor, String descripcion, LocalDate fecha, Integer estrellas, Integer likes, String sitioId, String userId) {
 		if (estrellas<0 || estrellas>5) throw new IllegalArgumentException("Las estrellas han de ser un valor entre 0 y 5");
 		this.id=id;
 		this.autor = autor;
@@ -37,6 +38,7 @@ public class Valoracion {
 		this.estrellas = estrellas;
 		this.likes= likes;
 		this.sitioId = sitioId;
+		this.userId = userId;
 	}
 
 	public String getId() {
@@ -97,8 +99,9 @@ public class Valoracion {
 		return sitioId;
 	}
 
-
-	public void setSitioId(String sitioId) {
-		this.sitioId = sitioId;
+	
+	public String getUserId() {
+		return userId;
 	}
+	
 }
