@@ -74,16 +74,16 @@ public class UsuarioResource {
 			if (order!=null) {
 				
 				if (order.equals("nombre")) {
-					allUsuarios.sort(Comparator.comparing(Sitio::getName));
+					allUsuarios.sort(Comparator.comparing(Usuario::getNombre));
 				}
 				if (order.equals("-nombre")) {
-					allUsuarios.sort(Comparator.comparing(Sitio::getName).reversed());
+					allUsuarios.sort(Comparator.comparing(Usuario::getNombre).reversed());
 				}
 				if (order.equals("edad")) {
-					allUsuarios.sort(Comparator.comparing(Sitio::getRating));
+					allUsuarios.sort(Comparator.comparing(Usuario::getEdad));
 				}
 				if (order.equals("-edad")) {
-					allUsuarios.sort(Comparator.comparing(Sitio::getRating).reversed());
+					allUsuarios.sort(Comparator.comparing(Usuario::getEdad).reversed());
 				}
 				
 			}
