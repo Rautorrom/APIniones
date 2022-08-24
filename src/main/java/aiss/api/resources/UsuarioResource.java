@@ -53,12 +53,12 @@ public class UsuarioResource {
 
 		@GET
 		@Produces("application/json")
-		public Collection<Usuario> getAllUsuarios(@QueryParam("limit") String limitQueried, 
+		public Collection<Usuario> getAllUsuario(@QueryParam("limit") String limitQueried, 
 										@QueryParam("edad") Integer edad, 
 										@QueryParam("nombre") String nombre,
 										@QueryParam("order") String order)
 		{
-			List<Usuario> allUsuarios = repository.getAllUsuarios().stream().collect(Collectors.toList());
+			List<Usuario> allUsuarios = repository.getAllUsuario().stream().collect(Collectors.toList());
 			
 			if (edad!=null) {
 				
