@@ -133,9 +133,6 @@ public class UsuarioResource {
 			if (usuario.getApellidos()!=null)
 				oldUsuario.setApellidos(usuario.getApellidos());
 			
-			// Update Edad
-			if (usuario.getEdad()!=null)
-				oldUsuario.setEdad(usuario.getEdad());
 			
 			return Response.noContent().build();
 		}

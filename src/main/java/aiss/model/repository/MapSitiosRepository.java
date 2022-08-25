@@ -41,7 +41,44 @@ public class MapSitiosRepository implements SitiosRepository{
 		valMap = new HashMap<String,Valoracion>();
 		usMap= new HashMap<String, Usuario>();
 		
+		//Create Usuarios
 		
+		Usuario santi = new Usuario();
+		santi.setUsername("santi");
+		santi.setNombre("Santi");
+		santi.setApellidos("Rosado Raya");
+		santi.setFechaNacimiento(LocalDate.of(2002, 1, 1));
+		addUsuario(santi);
+		
+		Usuario raul = new Usuario();
+		raul.setUsername("raul");
+		raul.setNombre("Raul");
+		raul.setApellidos("Toro Romero");
+		raul.setFechaNacimiento(LocalDate.of(2001, 8, 21));
+		addUsuario(raul);
+
+		Usuario alvaro = new Usuario();
+		alvaro.setUsername("Drakerion");
+		alvaro.setNombre("Alvaro");
+		alvaro.setApellidos("Hidalgo Rodriguez");
+		alvaro.setFechaNacimiento(LocalDate.of(2000, 7, 3));
+		addUsuario(alvaro);
+		
+		Usuario adrian = new Usuario();
+		adrian.setUsername("bloxio3001");
+		adrian.setNombre("Adrian");
+		adrian.setApellidos("Garcia-Baquero Porras");
+		adrian.setFechaNacimiento(LocalDate.of(2001, 5, 15));
+		addUsuario(adrian);
+		
+		Usuario laura = new Usuario();
+		laura.setUsername("lauriii");
+		laura.setNombre("Laura");
+		laura.setApellidos("Roldan Merat");
+		laura.setFechaNacimiento(LocalDate.of(1998, 10, 12));
+		addUsuario(laura);
+	
+			
 		// Create sitio
 		Sitio playa=new Sitio();
 		playa.setName("Playa de Mintonete");
@@ -62,74 +99,37 @@ public class MapSitiosRepository implements SitiosRepository{
 		addSitio(discoteca);
 		
 		// Create valoracion
-		Valoracion one=new Valoracion();
-		one.setAutor("u1");
+		Valoracion one=new Valoracion("s0","u1");
 		one.setDescripcion("Me lo pase como nunca");
 		one.setFecha(LocalDate.parse("02/05/2018",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 		one.setEstrellas(4);
-		one.setSitioId("s0");
 		addValoracion(one);
 		
-		Valoracion val1=new Valoracion();
-		val1.setAutor("u2");
+		Valoracion val1=new Valoracion("s1","u2");
 		val1.setDescripcion("Increible experiencia pero no repetiría");
 		val1.setFecha(LocalDate.parse("03/06/2018",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 		val1.setEstrellas(3);
-		val1.setSitioId("s1");
 		addValoracion(val1);
 		
-		Valoracion val2=new Valoracion();
-		val2.setAutor("u1");
+		Valoracion val2=new Valoracion("s0","u1");
 		val2.setDescripcion("No aguanto mas este antro, el trato horrible");
 		val2.setFecha(LocalDate.parse("01/04/2018",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 		val2.setEstrellas(4);
-		val2.setSitioId("s0");
 		addValoracion(val2);
 		
-		Valoracion val3=new Valoracion();
-		val3.setAutor("u4");
+		Valoracion val3=new Valoracion("s1","u4");
 		val3.setDescripcion("Me encanta este sitio de mis favoritos");
 		val3.setFecha(LocalDate.parse("02/12/2015",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 		val3.setEstrellas(3);
-		val3.setSitioId("s1");
 		addValoracion(val3);
 		
-		Valoracion gotye=new Valoracion();
-		gotye.setAutor("u5");
+		Valoracion gotye=new Valoracion("s1","u5");
 		gotye.setDescripcion("Una experiencia insuperable");
 		gotye.setFecha(LocalDate.parse("23/02/2002",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 		gotye.setEstrellas(2);
-		gotye.setSitioId("s1");
 		addValoracion(gotye);
-		
-		//Create Usuarios
-		
-		Usuario santi = new Usuario();
-		santi.setNombre("Santi");
-		santi.setApellidos("Rosado Raya");
-		santi.setEdad(20);
-		
-		Usuario raul = new Usuario();
-		raul.setNombre("Raul");
-		raul.setApellidos("Toro Romero");
-		raul.setEdad(20);
-
-		Usuario alvaro = new Usuario();
-		alvaro.setNombre("Alvaro");
-		alvaro.setApellidos("Hidalgo Rodriguez");
-		alvaro.setEdad(20);
-		
-		Usuario adrian = new Usuario();
-		adrian.setNombre("Adrian");
-		adrian.setApellidos("Garcia-Baquero Porras");
-		adrian.setEdad(20);
-		
-		Usuario laura = new Usuario();
-		laura.setNombre("Laura");
-		laura.setApellidos("Roldan Merat");
-		laura.setEdad(20);
 	}
-	
+		
 	// Operaciones relacionadas con los Sitios
 	@Override
 	public void addSitio(Sitio s) {
@@ -187,11 +187,9 @@ public class MapSitiosRepository implements SitiosRepository{
 	@Override
 	public void updateValoracion(Valoracion s) {
 		Valoracion val = valMap.get(s.getId());
-		val.setAutor(s.getAutor());
 		val.setDescripcion(s.getDescripcion());
 		val.setFecha(s.getFecha());
 		val.setEstrellas(s.getEstrellas());
-		val.setSitioId(s.getSitioId());
 	}
 
 	@Override
@@ -224,7 +222,6 @@ public class MapSitiosRepository implements SitiosRepository{
 		Usuario us = usMap.get(u.getUserId());
 		us.setNombre(u.getNombre());
 		us.setApellidos(u.getApellidos());
-		us.setEdad(u.getEdad());
 	}
 
 	@Override

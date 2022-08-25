@@ -52,7 +52,7 @@ public class ValoracionResource {
 	
 	@GET
 	@Produces("application/json")
-	public Collection<Valoracion> getAllValoraciones(@QueryParam("autor") String autor,
+	public Collection<Valoracion> getAllValoraciones(@QueryParam("userId") String userId,
 										@QueryParam("fecha") String fechaQueried,
 										@QueryParam("estrellas") String estrellas, 
 										@QueryParam("order") String order,
@@ -64,8 +64,8 @@ public class ValoracionResource {
 		
 		List<Valoracion> allValoraciones = repository.getAllValoraciones().stream().collect(Collectors.toList());
 	        
-        if (autor != null) {
-			allValoraciones = allValoraciones.stream().filter(val->val.getAutor().toLowerCase().compareTo(autor.toLowerCase())==0).collect(Collectors.toList());
+        if (userId != null) {
+			allValoraciones = allValoraciones.stream().filter(val->val.getUserId().equals(userId)).collect(Collectors.toList());
 		}
 		
 		if (fechaQueried != null  ) {
@@ -156,9 +156,6 @@ public class ValoracionResource {
 		if (oldValoracion == null) {
 			throw new NotFoundException("La valoración con id="+ valoracion.getId() +" no se encuentra");
 		}
-
-		if (valoracion.getAutor()!=null) 
-			oldValoracion.setAutor(valoracion.getAutor());
 		
 		if (valoracion.getDescripcion()!=null)
 			oldValoracion.setDescripcion(valoracion.getDescripcion());

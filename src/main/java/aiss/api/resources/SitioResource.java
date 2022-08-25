@@ -187,17 +187,20 @@ public class SitioResource {
 	@GET
 	@Path("/{id}/valoraciones")
 	@Produces("application/json")
-	public List<Valoracion> getValoraciones(@PathParam("id") String id, @QueryParam("autor") String autor,
-			@QueryParam("fecha") String fechaQueried,
-			@QueryParam("estrellas") String estrellas, 
-			@QueryParam("order") String order,
-			@QueryParam("limit") String limitQueried)
+	public Collection<Valoracion> getAllValoraciones(@QueryParam("userId") String userId,
+										@QueryParam("fecha") String fechaQueried,
+										@QueryParam("estrellas") String estrellas, 
+										@QueryParam("order") String order,
+										@QueryParam("limit") String limitQueried)
 	{
-        Sitio sitio = repository.getSitio(id);
-        List<Valoracion> allValoraciones = sitio.getValoraciones();
-        
-        if (autor != null) {
-			allValoraciones = allValoraciones.stream().filter(val->val.getAutor().toLowerCase().compareTo(autor.toLowerCase())==0).collect(Collectors.toList());
+		
+		
+		
+		
+		List<Valoracion> allValoraciones = repository.getAllValoraciones().stream().collect(Collectors.toList());
+	        
+        if (userId != null) {
+			allValoraciones = allValoraciones.stream().filter(val->val.getUserId().equals(userId)).collect(Collectors.toList());
 		}
 		
 		if (fechaQueried != null  ) {
@@ -245,13 +248,13 @@ public class SitioResource {
         return allValoraciones;
 	}
 	
+	
 	@POST
 	@Path("/{id}/valoraciones")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response addValoracion(@Context UriInfo uriInfo, @PathParam("id") String sitioId, Valoracion valoracion) {
 
-		if (valoracion.getSitioId()==null || valoracion.getSitioId()=="") valoracion.setSitioId(sitioId);
 		if (!valoracion.getSitioId().equals(sitioId)) throw new BadRequestException("Estás intentando guardar una valoración perteneciente a un id "
 				+ "distinto al que has especificado en la ruta. Para añadir la valoración a este sitio especifica la id correcta en el body o no especifiques ninguna ("
 				+ "se asignará la id del sitio en el path automáticamente). Para añadir la valoración a otro sitio haz el POST a /sitios/:sitioId donde :sitioId es el id "
@@ -290,9 +293,6 @@ public class SitioResource {
 		if (!oldValoracion.getSitioId().equals(sitioId)) throw new BadRequestException("Estás intentando editar una valoración perteneciente a un id "
 				+ "distinto al que has especificado en la ruta. Para editar la valoración a otro sitio haz el PUT a /sitios/:sitioId donde :sitioId es el id "
 				+ "del sitio al que está adjunto la valoración que deseas editar, o haz el PUT directamente a /valoraciones.");
-		
-		if (valoracion.getAutor()!=null) 
-			oldValoracion.setAutor(valoracion.getAutor());
 		
 		if (valoracion.getDescripcion()!=null)
 			oldValoracion.setDescripcion(valoracion.getDescripcion());
