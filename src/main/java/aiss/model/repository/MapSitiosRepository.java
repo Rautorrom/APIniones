@@ -210,7 +210,7 @@ public class MapSitiosRepository implements SitiosRepository{
 	}
 	
 	@Override
-	public Collection<Usuario> getAllUsuario() {
+	public Collection<Usuario> getAllUsuarios() {
 			return usMap.values();
 	}
 

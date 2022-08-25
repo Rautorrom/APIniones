@@ -25,9 +25,9 @@ public interface SitiosRepository {
 	public void deleteSitio(String sitioId);
 	public Collection<Valoracion> getAllValoraciones(String sitioId);
 
-	// Usuario
+	// Usuarios
 	public void addUsuario(Usuario u);
-	public Collection<Usuario> getAllUsuario();
+	public Collection<Usuario> getAllUsuarios();
 	public Usuario getUsuario(String usId);
 	public void updateUsuario(Usuario u);
 	public void deleteUsuario(String usId);

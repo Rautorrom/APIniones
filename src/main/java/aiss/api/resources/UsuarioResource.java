@@ -58,7 +58,7 @@ public class UsuarioResource {
 										@QueryParam("nombre") String nombre,
 										@QueryParam("order") String order)
 		{
-			List<Usuario> allUsuarios = repository.getAllUsuario().stream().collect(Collectors.toList());
+			List<Usuario> allUsuarios = repository.getAllUsuarios().stream().collect(Collectors.toList());
 			
 			if (edad!=null) {
 				
