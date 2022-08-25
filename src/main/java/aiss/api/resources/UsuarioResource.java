@@ -31,7 +31,7 @@ import aiss.model.Usuario;
 import aiss.model.Valoracion;
 import aiss.model.repository.MapSitiosRepository;
 import aiss.model.repository.SitiosRepository;
-@Path("/usuario")
+@Path("/usuarios")
 public class UsuarioResource {
 		
 		/* Singleton */
