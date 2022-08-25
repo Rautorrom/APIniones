@@ -53,7 +53,7 @@ public class UsuarioResource {
 
 		@GET
 		@Produces("application/json")
-		public Collection<Usuario> getAllUsuario(@QueryParam("limit") String limitQueried, 
+		public Collection<Usuario> getAllUsuarios(@QueryParam("limit") String limitQueried, 
 										@QueryParam("edad") Integer edad, 
 										@QueryParam("nombre") String nombre,
 										@QueryParam("order") String order)
