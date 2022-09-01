@@ -1,5 +1,7 @@
 package aiss.model.repository;	
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
@@ -230,21 +232,27 @@ public class MapSitiosRepository implements SitiosRepository{
 		usMap.remove(usId);
 	}
 	
-	//Pokemon related operations    
+	
+	//Pokemon related operations 
+	
 	public Pokemon getPokemon(String name) {
-		String uri = "https://pokemonapiaiss.lm.r.appspot.com/api/pokemon/" + name ;
+        try {
+            name = URLEncoder.encode(name, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String uri = "https://pokemonapiaiss.lm.r.appspot.com/api/pokemons/" + name;
+        ClientResource cr = new ClientResource(uri);
+        return cr.get(Pokemon.class);
+    }
+	
+
+	public Pokemon[] getAllPokemon() {
+		String uri = "https://pokemonapiaiss.lm.r.appspot.com/api/pokemon/";
 		ClientResource cr = new ClientResource(uri);
-		return cr.get(Pokemon.class);
+		return cr.get(Pokemon[].class);
 	}
 	
-	public void addPokemonComoSitio(Pokemon p) {
-		String id = "s" + indexSitio++;
-		Sitio s = new Sitio();
-		s.setName(p.getName());
-		s.setDescription("Pokemon de la generación "+p.getGeneration()
-				+ ", tipo principal "+p.getType1()+" y tipo secundario "+p.getType2()+".");
-		s.setId(id);
-		sitioMap.put(id,s);
-	}
-
+	
+	
 }

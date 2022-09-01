@@ -34,7 +34,6 @@ public interface SitiosRepository {
 	
 	// Pokemon
     public Pokemon getPokemon(String name);
-    public void addPokemonComoSitio(Pokemon p);
+    public Pokemon[] getAllPokemon();
 	
-
 }

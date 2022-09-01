@@ -81,5 +81,19 @@ public class PokemonResource {
 		return Arrays.asList(pokemons);
 	} 
     
+    /*
+    @POST
+    @Path("/{name}")
+    public Response addPokemonComoSitio(Pokemon p) {
+    	String id = "s" + indexSitio++;
+		Sitio s = new Sitio();
+		s.setName(p.getName());
+		s.setDescription("Pokemon de la generación "+p.getGeneration()
+				+ ", tipo principal "+p.getType1()+" y tipo secundario "+p.getType2()+".");
+		s.setId(id);
+		sitioMap.put(id,s);
+    }
+    */
     
+   
 }
