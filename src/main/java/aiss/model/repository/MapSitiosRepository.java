@@ -21,6 +21,7 @@ public class MapSitiosRepository implements SitiosRepository{
 	Map<String, Sitio> sitioMap;
 	Map<String, Valoracion> valMap;
 	Map<String, Usuario> usMap;
+	Map<String, Pokemon> pokeMap;
 	private static MapSitiosRepository instance=null;
 	private int indexSitio=0;			// Indice para los identificadores de sitios
 	private int indexValoracion=0; 		// Indice para los identificadores de valoraciones 
@@ -42,6 +43,7 @@ public class MapSitiosRepository implements SitiosRepository{
 		sitioMap = new HashMap<String,Sitio>();
 		valMap = new HashMap<String,Valoracion>();
 		usMap= new HashMap<String, Usuario>();
+		pokeMap= new HashMap<String, Pokemon>();
 		
 		//Create Usuarios
 		

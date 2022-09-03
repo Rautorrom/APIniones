@@ -28,6 +28,7 @@ import org.jboss.resteasy.spi.NotFoundException;
 
 import aiss.model.Sitio;
 import aiss.model.Valoracion;
+import aiss.model.pokemon.Pokemon;
 import aiss.model.repository.MapSitiosRepository;
 import aiss.model.repository.SitiosRepository;
 
@@ -106,7 +107,25 @@ public class SitioResource {
  		return allSitios;
 	}
 		
-	
+
+    @POST
+    @Path("/{name}")
+    public Response postPokemon(@Context UriInfo uriInfo, @PathParam("name") String name) {
+    	
+    	Pokemon p = aiss.model.repository.MapSitiosRepository.getInstance().getPokemon(name);
+		Sitio s = new Sitio();
+		
+		
+		s.setName(p.getName());
+		s.setDescription("Pokemon de la generación "+p.getGeneration()
+				+ ", tipo principal "+p.getType1()+" y tipo secundario "+p.getType2()+".");
+		repository.addSitio(s);
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "getSitio");
+		URI uri = ub.build(s.getId());
+		ResponseBuilder resp = Response.created(uri);
+		resp.entity(s);			
+		return resp.build();
+    }
 
 	
 	@POST
