@@ -109,7 +109,7 @@ public class SitioResource {
 		
 
     @POST
-    @Path("/pokemons/{name}")
+    @Path("/{name}")
     public Response postPokemon(@Context UriInfo uriInfo, @PathParam("name") String name) {
     	
     	Pokemon p = aiss.model.repository.MapSitiosRepository.getInstance().getPokemon(name);
