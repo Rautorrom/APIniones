@@ -18,7 +18,7 @@ public class PokemonTest {
 	@Test
 	public void testGetPokemon() {
 		
-		String nombre1= "Bulbasaur";
+		String nombre1= "Pikachu";
 		pokemon1= repositorio.getPokemon(nombre1);
 		Pokemon p = repositorio.getPokemon(pokemon1.getName());
 		
