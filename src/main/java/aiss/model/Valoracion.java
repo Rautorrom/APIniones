@@ -16,19 +16,22 @@ public class Valoracion {
 	private String sitioId;
 	private String userId;
 
+	public Valoracion() {}
+	
 	public Valoracion(String sitioId, String userId) {
 		this.sitioId = sitioId;
 		this.userId = userId;
 	}
 
-	public Valoracion(String descripcion, LocalDate fecha, Integer estrellas, Integer likes, String sitioId, String userId) {
-		if (estrellas<0 || estrellas>5) throw new IllegalArgumentException("Las estrellas han de ser un valor entre 0 y 5");
+	public Valoracion(String descripcion, String estrellas, String sitioId, String userId) {
+		Integer estrellasInt = Integer.valueOf(estrellas);
+		if (estrellasInt<0 || estrellasInt>5) throw new IllegalArgumentException("Las estrellas han de ser un valor entre 0 y 5");
 		this.descripcion = descripcion;
-		this.fecha = fecha;
-		this.estrellas = estrellas;
-		this.likes= likes;
+		this.estrellas = estrellasInt;
 		this.sitioId = sitioId;
 		this.userId = userId;
+		this.likes=0;
+		
 	}
 	
 
