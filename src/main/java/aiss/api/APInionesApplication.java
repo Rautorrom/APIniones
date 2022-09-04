@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.ws.rs.core.Application;
 
+import aiss.api.resources.PokemonResource;
 import aiss.api.resources.SitioResource;
 import aiss.api.resources.UsuarioResource;
 import aiss.api.resources.ValoracionResource;
@@ -21,6 +22,7 @@ public class APInionesApplication extends Application {
 		singletons.add(SitioResource.getInstance());
 		singletons.add(ValoracionResource.getInstance());
 		singletons.add(UsuarioResource.getInstance());
+		singletons.add(PokemonResource.getInstance());
 	}
 
 	@Override

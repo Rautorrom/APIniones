@@ -110,6 +110,7 @@ public class SitioResource {
 
     @POST
     @Path("/{name}")
+	@Produces("application/json")
     public Response postPokemon(@Context UriInfo uriInfo, @PathParam("name") String name) {
     	
     	Pokemon p = aiss.model.repository.MapSitiosRepository.getInstance().getPokemon(name);
@@ -206,7 +207,7 @@ public class SitioResource {
 	@GET
 	@Path("/{id}/valoraciones")
 	@Produces("application/json")
-	public Collection<Valoracion> getAllValoraciones(@QueryParam("userId") String userId,
+	public Collection<Valoracion> getAllValoraciones(@PathParam("id") String sitioId, @QueryParam("userId") String userId,
 										@QueryParam("fecha") String fechaQueried,
 										@QueryParam("estrellas") String estrellas, 
 										@QueryParam("order") String order,
@@ -217,6 +218,8 @@ public class SitioResource {
 		
 		
 		List<Valoracion> allValoraciones = repository.getAllValoraciones().stream().collect(Collectors.toList());
+		
+		allValoraciones = allValoraciones.stream().filter(val->val.getSitioId().equals(sitioId)).collect(Collectors.toList());
 	        
         if (userId != null) {
 			allValoraciones = allValoraciones.stream().filter(val->val.getUserId().equals(userId)).collect(Collectors.toList());

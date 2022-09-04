@@ -1,6 +1,7 @@
 package aiss.model.repository;
 
 import java.util.Collection;
+import java.util.List;
 
 import aiss.model.Sitio;
 import aiss.model.Usuario;
@@ -34,6 +35,6 @@ public interface SitiosRepository {
 	
 	// Pokemon
     public Pokemon getPokemon(String name);
-    public Pokemon[] getAllPokemon();
+    public List<Pokemon> getAllPokemon();
 	
 }

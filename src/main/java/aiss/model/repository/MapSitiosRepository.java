@@ -4,10 +4,13 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.jboss.resteasy.spi.NotFoundException;
 import org.restlet.resource.ClientResource;
 
 import aiss.model.Sitio;
@@ -51,35 +54,35 @@ public class MapSitiosRepository implements SitiosRepository{
 		santi.setUsername("santi");
 		santi.setNombre("Santi");
 		santi.setApellidos("Rosado Raya");
-		santi.setFechaNacimiento(LocalDate.of(2002, 1, 1));
+		santi.setFechaNacimiento("01/01/2002");
 		addUsuario(santi);
 		
 		Usuario raul = new Usuario();
 		raul.setUsername("raul");
 		raul.setNombre("Raul");
 		raul.setApellidos("Toro Romero");
-		raul.setFechaNacimiento(LocalDate.of(2001, 8, 21));
+		raul.setFechaNacimiento("21/08/2001");
 		addUsuario(raul);
 
 		Usuario alvaro = new Usuario();
 		alvaro.setUsername("Drakerion");
 		alvaro.setNombre("Alvaro");
 		alvaro.setApellidos("Hidalgo Rodriguez");
-		alvaro.setFechaNacimiento(LocalDate.of(2000, 7, 3));
+		alvaro.setFechaNacimiento("03/07/2000");
 		addUsuario(alvaro);
 		
 		Usuario adrian = new Usuario();
 		adrian.setUsername("bloxio3001");
 		adrian.setNombre("Adrian");
 		adrian.setApellidos("Garcia-Baquero Porras");
-		adrian.setFechaNacimiento(LocalDate.of(2001, 5, 15));
+		adrian.setFechaNacimiento("15/05/2001");
 		addUsuario(adrian);
 		
 		Usuario laura = new Usuario();
 		laura.setUsername("lauriii");
 		laura.setNombre("Laura");
 		laura.setApellidos("Roldan Merat");
-		laura.setFechaNacimiento(LocalDate.of(1998, 10, 12));
+		laura.setFechaNacimiento("12/10/1998");
 		addUsuario(laura);
 	
 			
@@ -230,7 +233,6 @@ public class MapSitiosRepository implements SitiosRepository{
 
 	@Override
 	public void deleteUsuario(String usId) {
-		Usuario uso = getUsuario(usId);
 		usMap.remove(usId);
 	}
 	
@@ -240,19 +242,19 @@ public class MapSitiosRepository implements SitiosRepository{
 	public Pokemon getPokemon(String name) {
         try {
             name = URLEncoder.encode(name, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        }catch(Exception e){
+                throw new NotFoundException("El pokemon con el nombre="+ name +" no ha sido encontrado");    
+            }
         String uri = "https://pokemonapiaiss.lm.r.appspot.com/api/pokemons/" + name;
         ClientResource cr = new ClientResource(uri);
         return cr.get(Pokemon.class);
     }
 	
 
-	public Pokemon[] getAllPokemon() {
-		String uri = "https://pokemonapiaiss.lm.r.appspot.com/api/pokemon/";
+	public List<Pokemon> getAllPokemon() {
+		String uri = "https://pokemonapiaiss.lm.r.appspot.com/api/pokemons/";
 		ClientResource cr = new ClientResource(uri);
-		return cr.get(Pokemon[].class);
+		return Arrays.asList(cr.get(Pokemon[].class));
 	}
 	
 	

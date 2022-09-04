@@ -1,7 +1,7 @@
 package aiss.model;
 
 import java.time.LocalDate;
-import java.util.Collection;
+import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
 public class Usuario implements Comparable<Usuario>{
@@ -57,8 +57,8 @@ public class Usuario implements Comparable<Usuario>{
 	}
 
 
-	public void setFechaNacimiento(LocalDate fechaNacimiento) {
-		this.fechaNacimiento = fechaNacimiento;
+	public void setFechaNacimiento(String fechaNacimiento) {
+		this.fechaNacimiento = LocalDate.parse(fechaNacimiento, DateTimeFormatter.ofPattern("dd/MM/uuuu"));
 	}
 
 
@@ -70,9 +70,6 @@ public class Usuario implements Comparable<Usuario>{
 		 return aiss.model.repository.MapSitiosRepository.getInstance().getAllValoraciones().stream().filter(v->v.getUserId().equals(this.userId))
 				 .collect(Collectors.toList()).size();
 	}
-	
-	
-
 
 	@Override
 	public int compareTo(Usuario o) {

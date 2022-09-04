@@ -133,6 +133,9 @@ public class UsuarioResource {
 			if (usuario.getApellidos()!=null)
 				oldUsuario.setApellidos(usuario.getApellidos());
 			
+			// Update username
+			if (usuario.getUsername()!=null)
+				oldUsuario.setUsername(usuario.getUsername());
 			
 			return Response.noContent().build();
 		}

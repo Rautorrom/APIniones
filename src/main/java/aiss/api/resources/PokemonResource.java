@@ -39,8 +39,7 @@ import aiss.model.repository.SitiosRepository;
 @Path("/pokemons")
 public class PokemonResource {
 	
-	private String uri = "https://pokemonapiaiss.lm.r.appspot.com/api";
-	
+
     protected static PokemonResource instance = null; // La instancia inicialmente no existe, se crea al ejecutar .getInstance().
     final SitiosRepository repository;  // Para poder trabajar con los datos
 
@@ -54,46 +53,18 @@ public class PokemonResource {
     }
     
     @Path("/{name}")
+    @GET
     @Produces("application/json")
     public Pokemon getPokemon(@PathParam("name") String name)
     {
-        try {
-            return repository.getPokemon(name);
-        }
-        catch(Exception e){
-            throw new NotFoundException("El pokemon con el nombre="+ name +" no ha sido encontrado");    
-        }
+         return repository.getPokemon(name);
     }
     
     @GET
+    @Produces("application/json")
     public Collection<Pokemon> getAllPokemon() {
-    	ClientResource cr = null;
-		Pokemon [] pokemons = null;
-		try {
-			cr = new ClientResource(uri);
-			pokemons = cr.get(Pokemon[].class);
-			
-		} catch (ResourceException re) {
-			System.err.println("Error when retrieving all songs: " + cr.getResponse().getStatus());
-			throw re;
-		}
-		
-		return Arrays.asList(pokemons);
+    	return repository.getAllPokemon();
 	} 
-    
-    /*
-    @POST
-    @Path("/{name}")
-    public Response addPokemonComoSitio(Pokemon p) {
-    	String id = "s" + indexSitio++;
-		Sitio s = new Sitio();
-		s.setName(p.getName());
-		s.setDescription("Pokemon de la generación "+p.getGeneration()
-				+ ", tipo principal "+p.getType1()+" y tipo secundario "+p.getType2()+".");
-		s.setId(id);
-		sitioMap.put(id,s);
-    }
-    */
     
    
 }

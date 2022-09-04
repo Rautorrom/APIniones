@@ -1,7 +1,7 @@
 package aiss.model;
 
 import java.time.LocalDate;
-import java.util.List;
+
 
 import aiss.model.repository.MapSitiosRepository;
 
@@ -50,7 +50,7 @@ public class Valoracion {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-
+	
 	public LocalDate getFecha() {
 		return fecha;
 	}
