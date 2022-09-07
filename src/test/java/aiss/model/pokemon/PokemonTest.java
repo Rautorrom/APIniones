@@ -30,4 +30,4 @@ public class PokemonTest {
 		System.out.println("Nombre pokemon: " +  p.getName());
 		System.out.println("Generacion del pokemon: " +  p.getGeneration());
 	}
-}
+} 
