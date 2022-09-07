@@ -156,6 +156,7 @@ public class UsuarioResource {
 			if (toBeRemoved == null)
 				throw new NotFoundException("El usuario con el id="+ id +" no ha sido encontrado.");
 			else
+				repository.getAllValoraciones().stream().filter(val->val.getAutor().equals(toBeRemoved)).forEach(val->repository.deleteValoracion(val.getId()));
 				repository.deleteUsuario(id);
 			
 			return Response.noContent().build();

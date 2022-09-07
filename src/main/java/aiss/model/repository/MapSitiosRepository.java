@@ -130,7 +130,7 @@ public class MapSitiosRepository implements SitiosRepository{
 		val3.setEstrellas(3);
 		addValoracion(val3);
 		
-		Valoracion gotye=new Valoracion("s1","u5");
+		Valoracion gotye=new Valoracion("s1","u0");
 		gotye.setDescripcion("Una experiencia insuperable");
 		gotye.setFecha(LocalDate.parse("23/02/2002",DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 		gotye.setEstrellas(2);

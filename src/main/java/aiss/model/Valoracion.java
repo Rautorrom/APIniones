@@ -91,12 +91,6 @@ public class Valoracion {
 
 	public Usuario getAutor() {
 		Usuario us =  MapSitiosRepository.getInstance().getUsuario(userId);
-		if (us==null) { us = new Usuario();
-			us.setUsername("NonExistentUser");
-			us.setApellidos("NonExistentUser");
-			us.setFechaNacimiento("01/01/2000");
-			us.setNombre("NonExistentUser");
-		}
 		return us;
 	}
 	
